@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEXメーカー (サイズ切替)</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='static/css/style.css') }}">
+</head>
+<body>
+    <h1>HEXメーカー (サイズ切替)</h1>
+    <p>
+        あなたの盤面です。Seed: <strong id="current-seed-display">{{ current_seed }}</strong>
+        (サイズ: {{ current_size }})
+        {# サイズ切り替えボタン #}
+        <a href="{{ toggle_size_url }}" class="toggle-size-button">
+            盤面を{{ '拡大' if current_size == 'small' else '縮小' }} ({{ opposite_size }})
+        </a>
+    </p>
+
+
+    <form method="GET" action="{{ url_for('view_board') }}" class="seed-form">
+         <label for="seed-input">Seed値で生成:</label>
+         <input type="number" id="seed-input" name="seed"
+                placeholder="数字を入力"
+                value="{{ current_seed }}"
+                required min="0">
+         {# sizeもhiddenフィールドで送信する #}
+         <input type="hidden" name="size" value="{{ current_size }}">
+         <button type="submit" class="seed-button">このSeedで生成</button>
+         {# ランダム生成ボタンはデフォルトサイズで生成するように変更 #}
+         <a href="{{ url_for('home') }}" class="new-board-button" style="margin-left: 10px;">ランダム生成 ({{ DEFAULT_BOARD_SIZE }})</a>
+    </form>
+
+
+    {# --- ハニカムグリッド描画 (row_configに基づいて動的に生成) --- #}
+    <div id="hex-grid" class="hex-grid-container">
+        {# アイコンリストのインデックスを追跡するためのnamespace #}
+        {% set icon_index = namespace(value=0) %}
+        {# row_configリストをループして行を生成 #}
+        {% for row_count in row_config %}
+            {# 行ごとのセル数に応じてクラス名を動的に設定 #}
+            <div class="hex-row hex-row-{{ row_count }}">
+                {# その行のセル数だけループしてセルを生成 #}
+                {% for _ in range(row_count) %}
+                    {# 正しいインデックスのアイコンを取得 #}
+                    {% if icon_index.value < icons|length %} {# 配列外参照を防ぐ #}
+                        {% set icon = icons[icon_index.value] %}
+                        <div class="hex-cell state-white" data-icon="{{ icon }}">
+                            <div class="hex-content">
+                                <img src="{{ url_for('static', filename='sma_icon/' + icon) }}" alt="{{ icon.split('.')[0] }}">
+                            </div>
+                        </div>
+                        {# インデックスをインクリメント #}
+                        {% set icon_index.value = icon_index.value + 1 %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+    {# --- ハニカムグリッド描画ここまで --- #}
+
+
+    <div class="controls">
+        <p>
+            マスをクリックすると背景色が変わります (白→赤→青→白)。<br>
+            この盤面を共有する場合は、以下のURLをコピーしてください。
+        </p>
+        <input type="text" id="share-url-input" value="{{ share_url }}" readonly>
+        <button id="copy-button">クリップボードにコピー</button>
+        <p id="copy-feedback" class="copy-feedback"></p>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

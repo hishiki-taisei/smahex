@@ -1,0 +1,239 @@
+/* static/css/style.css */
+
+body {
+    font-family: sans-serif;
+    margin: 20px;
+    background-color: #f4f4f4;
+    text-align: center;
+}
+
+h1 {
+    color: #333;
+}
+
+/* --- コントロールエリア (コピーボタンなど) --- */
+.controls {
+    margin-top: 30px;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: inline-block;
+    text-align: left;
+}
+
+#share-url-input {
+    width: 80%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#copy-button { /* controls内のコピーボタン専用 */
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
+    margin-left: 5px;
+}
+
+#copy-button:hover {
+    background-color: #0056b3;
+}
+
+.copy-feedback {
+    margin-top: 5px;
+    font-size: 0.9em;
+    color: green;
+    min-height: 1.2em;
+}
+
+/* --- Seed入力フォームのスタイル --- */
+.seed-form {
+    margin-bottom: 25px; /* グリッドとの間隔 */
+    display: flex; /* 横並び */
+    justify-content: center; /* 中央揃え */
+    align-items: center; /* 垂直中央揃え */
+    flex-wrap: wrap; /* 画面幅が狭い場合に折り返す */
+    gap: 10px; /* 要素間の隙間 */
+}
+
+.seed-form label {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.seed-form input[type="number"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 150px; /* 幅を適宜調整 */
+    text-align: right; /* 数字なので右寄せに */
+}
+/* Webkit系ブラウザで数値入力のスピナー（上下ボタン）を非表示にする場合 */
+.seed-form input[type=number]::-webkit-inner-spin-button,
+.seed-form input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox用 */
+.seed-form input[type=number] {
+  -moz-appearance: textfield;
+}
+
+/* Seedフォーム内のボタン共通スタイル */
+.seed-form .seed-button,
+.seed-form .new-board-button {
+    padding: 8px 15px; /* 少し小さめに */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    text-decoration: none; /* aタグ用 */
+    display: inline-block; /* aタグ用 */
+}
+/* 個別の色設定 */
+.seed-form .seed-button {
+    background-color: #28a745; /* 生成ボタンの色 */
+}
+.seed-form .new-board-button {
+     background-color: #007bff; /* ランダム生成ボタンの色 */
+}
+
+/* ホバーエフェクト */
+.seed-form .seed-button:hover {
+    background-color: #218838;
+}
+.seed-form .new-board-button:hover {
+     background-color: #0056b3;
+}
+
+/* 現在のSeed値表示スタイル */
+#current-seed-display {
+    font-size: 1.1em;
+    color: #555;
+    background-color: #eee;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: 5px;
+    vertical-align: middle; /* ボタンと高さを合わせる */
+}
+
+
+/* --- サイズ切り替えボタンのスタイル --- */
+.toggle-size-button {
+    display: inline-block;
+    padding: 5px 10px;
+    margin-left: 15px; /* Seed表示との間隔 */
+    background-color: #6c757d; /* グレー系 */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 0.9em;
+    vertical-align: middle; /* Seed表示と高さを合わせる */
+    transition: background-color 0.2s ease;
+}
+
+.toggle-size-button:hover {
+    background-color: #5a6268;
+}
+
+
+/* --- Hex Grid Layout (サイズ可変対応) --- */
+:root {
+    --hex-size: 60px; /* 六角形のサイズ（幅基準） */
+    --hex-margin: 18px; /* 六角形間の隙間（水平方向） */
+    --hex-height: calc(var(--hex-size) * 0.86); /* 高さは幅の約0.86倍 */
+    /* 行間のネガティブマージン */
+    --row-margin-top: calc(var(--hex-height) * -0.525 + var(--hex-margin) * 0.1);
+}
+
+.hex-grid-container {
+    margin: calc(var(--hex-height) / 2) auto 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* コンテナの幅は自動調整 */
+    padding-bottom: var(--hex-height); /* 下にもマージンを確保 */
+}
+
+.hex-row {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--row-margin-top);
+    box-sizing: border-box;
+}
+
+/* 行ごとのオフセット調整 */
+/* 基準: 3個の行 */
+.hex-row-3 {
+     /* オフセットなし */
+}
+
+/* 2個と4個の行は同じオフセット */
+.hex-row-2,
+.hex-row-4 {
+    /* 六角形の半分の幅 + マージン半分のオフセット */
+    /* ユーザー調整値(+3)を除いた基本形 */
+    /* padding-left: calc(var(--hex-size) / 2 + var(--hex-margin) / 2);
+    /* もし以前の調整値(+3)が必要な場合は以下をコメント解除 */
+    padding-left: calc(var(--hex-size) / 2 + var(--hex-margin) / 2 )+3;
+}
+
+/* 1個の行 */
+.hex-row-1 {
+     /* 六角形1個分の幅 + マージン1個分のオフセット */
+     /* ユーザー調整値(+3)を除いた基本形 */
+     /* padding-left: calc(var(--hex-size) + var(--hex-margin));
+     /* もし以前の調整値(+3)が必要な場合は以下をコメント解除 */
+     padding-left: calc(var(--hex-size) + var(--hex-margin) )+3; 
+}
+
+
+.hex-cell {
+    width: var(--hex-size);
+    height: var(--hex-height);
+    background-color: #ffffff;
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1); /* 細い境界線 */
+    flex-shrink: 0;
+    /* セル間の左右マージン */
+    margin-left: var(--hex-margin);
+    margin-right: var(--hex-margin);
+}
+
+.hex-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.hex-content img {
+    max-width: 70%;
+    max-height: 70%;
+    display: block;
+}
+
+/* 色の状態 */
+.hex-cell.state-white { background-color: #ffffff; }
+.hex-cell.state-red { background-color: #ffcccc; }
+.hex-cell.state-blue { background-color: #cceeff; }
