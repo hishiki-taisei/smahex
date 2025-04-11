@@ -4,13 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SMASH HEX</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/style.css') }}">
 </head>
 <body>
     <h1>SMASH HEX </h1>
     <p>
-        あなたの盤面です。Seed: <strong id="current-seed-display">{{ current_seed }}</strong>
-        (サイズ: {{ current_size }})
+        Seed: <strong id="current-seed-display">{{ current_seed }}</strong>
         {# サイズ切り替えボタン #}
         <a href="{{ toggle_size_url }}" class="toggle-size-button">
             盤面を{{ '拡大' if current_size == 'small' else '縮小' }} ({{ opposite_size }})
@@ -28,7 +27,7 @@
          <input type="hidden" name="size" value="{{ current_size }}">
          <button type="submit" class="seed-button">このSeedで生成</button>
          {# ランダム生成ボタンはデフォルトサイズで生成するように変更 #}
-         <a href="{{ url_for('home') }}" class="new-board-button" style="margin-left: 10px;">ランダム生成 ({{ DEFAULT_BOARD_SIZE }})</a>
+         <a href="{{ url_for('home') }}" class="new-board-button" style="margin-left: 10px;">ランダム生成 {{ DEFAULT_BOARD_SIZE }}</a>
     </form>
 
 
