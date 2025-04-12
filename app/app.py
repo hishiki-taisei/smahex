@@ -12,13 +12,20 @@ ICON_FOLDER = os.path.join(app.static_folder, 'sma_icon')
 # 盤面サイズ定義
 BOARD_CONFIGS = {
     'small': {
-        'grid_size': 19,
-        'rows': [1, 2, 3, 2, 3, 2, 3, 2, 1]
+        # この 'grid_size' と 'rows' を変更すると 'small' サイズの盤面が変わります
+        'grid_size': 25,
+        'rows': [1, 2, 3, 4, 5, 4, 3, 2, 1]
     },
     'large': {
-        'grid_size': 37, # 1+2+3+4+3+4+3+4+3+4+3+2+1 = 37
-        'rows': [1, 2, 3, 4, 3, 4, 3, 4, 3, 4, 3, 2, 1]
+        # この 'grid_size' と 'rows' を変更すると 'large' サイズの盤面が変わります
+        'grid_size': 49, # 1+2+3+4+3+4+3+4+3+4+3+2+1 = 37
+        'rows': [1, 2, 3, 4, 5, 6, 7, 6, 5, 4, 3, 2, 1]
     }
+    # 新しいサイズを追加する場合は、ここに追記します
+    # 'medium': {
+    #     'grid_size': 25, # 例: 合計値
+    #     'rows': [1, 2, 3, 4, 5, 4, 3, 2, 1] # 例: 新しい形状
+    # }
 }
 DEFAULT_BOARD_SIZE = 'small'
 MAX_ICONS_NEEDED = max(config['grid_size'] for config in BOARD_CONFIGS.values())
