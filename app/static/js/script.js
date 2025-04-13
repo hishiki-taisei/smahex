@@ -1,8 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
     const hexGrid = document.getElementById('hex-grid');
     const copyButton = document.getElementById('copy-button');
-    // const shareUrlInput = document.getElementById('share-url-input'); // 削除
-    // const copyFeedback = document.getElementById('copy-feedback'); // 削除
+
+    // --- タッチデバイス判定 ---
+    const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0);
 
     // --- マスのクリック処理 ---
     if (hexGrid) {
@@ -11,13 +12,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const cell = event.target.closest('.hex-cell');
             if (!cell) return; // 関係ない場所をクリックした場合は何もしない
 
-            // --- クリックフィードバック ---
-            cell.classList.add('clicked');
-            // アニメーションが終わる頃にクラスを削除
-            setTimeout(() => {
-                cell.classList.remove('clicked');
-            }, 150); // CSSのtransition時間より少し短くても良い
-            // --- ここまで追加 ---
+            // --- クリックフィードバック (タッチデバイスでない場合のみ) ---
+            if (!isTouchDevice) {
+                cell.classList.add('clicked');
+                // アニメーションが終わる頃にクラスを削除
+                setTimeout(() => {
+                    cell.classList.remove('clicked');
+                }, 150); // CSSのtransition時間より少し短くても良い
+            }
+            // --- ここまで変更 ---
 
             // 現在の色状態を取得
             const currentState = cell.classList.contains('state-red') ? 'red' :

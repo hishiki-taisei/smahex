@@ -18,6 +18,7 @@ body {
     -moz-user-select: none;
     -ms-user-select: none;
     /* --- ここまで追加 --- */
+    touch-action: manipulation; /* 追加: ダブルタップズームを無効化 */
 }
 
 h1 {
