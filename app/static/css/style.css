@@ -148,22 +148,18 @@ h1 {
 }
 
 .hex-grid-container {
-    margin: calc(var(--hex-height) / 2) auto 0;
+    margin-top: calc(var(--hex-height) * 0.5); /* 上マージン調整 (例) */
+    margin-left: 30px; /* 左マージンを設定して左端にスペースを確保 (例) */
+    margin-right: 30px; /* 右マージンも設定 */
+    margin-bottom: calc(var(--hex-height) * 1); /* 下マージン調整 (例) */
     padding: 0;
     list-style: none;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    /* コンテナの幅は自動調整 */
-    padding-bottom: var(--hex-height); /* 下にもマージンを確保 */
-    /* --- 追加 --- */
+    align-items: flex-start; /* 行をコンテナの左端に揃える */
+    padding-bottom: var(--hex-height);
     transform: rotate(-30deg);
-    transform-origin: center center;
-    /* 回転によりレイアウトが崩れる可能性があるため、
-       必要に応じて margin や padding の調整が必要になる場合があります */
-    /* 例: 回転後のスペース確保のためマージンを追加 */
-    margin-left: calc(var(--hex-height) * 1); /* 左部マージン調整例 */
-    /* --- ここまで追加 --- */
+    transform-origin: top left; /* 回転基点を左上に変更 */
 }
 
 .hex-row {
