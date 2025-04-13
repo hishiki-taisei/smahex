@@ -126,7 +126,7 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 15px; /* 要素間の隙間 */
+    gap: 11px; /* 要素間の隙間 */
     margin-top: 20px; /* サイズ選択ボタンとの間隔 */
     margin-bottom: 35px; /* グリッドとの間隔 */
     position: relative; /* z-indexのため */
