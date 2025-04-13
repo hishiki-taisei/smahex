@@ -137,7 +137,7 @@ h1 {
 /* ランダム生成ボタンのスタイル (個別設定) */
 .new-board-button {
     display: inline-block;
-    padding: 8px 18px; /* パディング調整 */
+    padding: 8px 16px; /* パディング調整 */
     color: white;
     background-color: #17a2b8; /* 別のアクセントカラー (例: Teal) */
     border: none;
@@ -167,7 +167,7 @@ h1 {
 }
 
 #seed-input {
-    padding: 9px 10px;
+    padding: 9px 8px;
     border: 1px solid #ced4da;
     /* border-radius: 15px; */
     border-top-left-radius: 15px;    /* 左上を丸める */
@@ -190,7 +190,7 @@ h1 {
 }
 
 #seed-submit {
-    padding: 7.5px 10px; /* 少し小さく */
+    padding: 7.5px 8px; /* 少し小さく */
     background-color: #6c757d;
     color: white;
     border: 1px solid #6c757d;
@@ -281,15 +281,37 @@ h1 {
 
 /* --- 重複度に応じた背景色 --- */
 /* data-duplicates="1" はデフォルトの #ffffff が適用される */
-.hex-cell[data-duplicates="2"] { background-color: #fffff1; } /* 薄い黄色 (LemonChiffon) */
-.hex-cell[data-duplicates="3"] { background-color: #ffffe5; } /* やや濃い黄色 */
-/* 4つ以上は同じ色 */
-.hex-cell[data-duplicates="4"] { background-color: #fefbcb; }
+
+/* 2個重複: 薄い黄色 (以前のまま or 変更) */
+.hex-cell[data-duplicates="2"] { background-color: #fffef0; } /* LemonChiffon */
+
+/* 3個重複: 銅色グラデーション */
+.hex-cell[data-duplicates="3"] {
+    background-image: linear-gradient(135deg, #dca880 0%, #fff0e2 30%, #e0bd9d 100%); /* Bronze gradient */
+}
+
+/* 4個重複: 銀色グラデーション */
+.hex-cell[data-duplicates="4"] {
+    background-image: linear-gradient(135deg, #bebebf 0%, #eaeaea 30%, #d2d2d2 100%); /* Silver gradient */
+}
+
+/* 5個以上重複: 金色グラデーション */
 .hex-cell[data-duplicates="5"],
 .hex-cell[data-duplicates="6"],
 .hex-cell[data-duplicates="7"],
 .hex-cell[data-duplicates="8"] { /* 必要に応じてさらに追加 */
-    background-color: #fdfa66; /* 濃い黄色 (Gold) */
+    background-image: linear-gradient(135deg, #d0b330 0%, #fdeec2 30%, #d3bc54 100%); /* Gold gradient */
+}
+
+/* 色の状態 (重複スタイルより優先) */
+.hex-cell.state-white { background-color: #ffffff; }
+.hex-cell.state-red {
+    background-color: #fe8f8f;
+    background-image: none; /* グラデーションを確実に上書き */
+}
+.hex-cell.state-blue {
+    background-color: #8d9df9;
+    background-image: none; /* グラデーションを確実に上書き */
 }
 
 .hex-content {
@@ -315,8 +337,3 @@ h1 {
     -webkit-user-drag: none; /* ドラッグを無効化 (WebKit系) */
     /* --- ここまで追加 --- */
 }
-
-/* 色の状態 (重複スタイルより優先) */
-.hex-cell.state-white { background-color: #ffffff; }
-.hex-cell.state-red { background-color: #fe8f8f; } /* よりソフトな赤 */
-.hex-cell.state-blue { background-color: #8d9df9; } /* よりソフトな青 */
