@@ -1,158 +1,160 @@
 /* static/css/style.css */
 
-html { /* 追加 */
-    overflow-x: hidden; /* 追加: 水平方向のオーバーフローを隠す */
-} /* ここまで追加 */
+html {
+    overflow-x: hidden;
+}
 
 body {
-    font-family: sans-serif;
-    margin: 20px;
-    background-color: #f4f4f4;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* よりモダンなフォント候補 */
+    margin: 0; /* bodyのマージンを削除 */
+    padding: 30px 20px; /* 上下にパディングを追加 */
+    background-color: #ebebeb; /* 少し明るい背景色 */
+    color: #343a40; /* デフォルトテキストカラー */
     text-align: center;
-    overflow-x: hidden; /* 追加: 水平方向のオーバーフローを隠す */
+    overflow-x: hidden;
 }
 
 h1 {
-    color: #333;
-    margin-bottom: 10px; /* タイトルとサイズ選択の間隔調整 */
+    color: #ffffff;
+    background-color: #ff3535;
+    padding : 20px 0; /* 上下にパディングを追加 */
+    margin-bottom: 20px; /* ボタン群との間隔を調整 */
+    font-weight: 600; /* 少し太く */
+    letter-spacing: 0.5px; /* 文字間隔を少し広げる */
 }
 
 /* --- コントロールエリア (コピーボタンなど) --- */
 .controls {
-    margin-top: 30px;
-    padding: 15px; /* パディングは維持しても良い */
-    text-align: center; /* ボタンを中央揃えにする */
+    margin-top: 40px; /* グリッドとの間隔を調整 */
+    padding: 0; /* パディングを削除 (ボタン自体にパディングがあるため) */
+    text-align: center;
     position: relative;
     z-index: 10;
 }
 
-#copy-button { /* controls内のコピーボタン専用 */
-    padding: 10px 20px; /* パディング調整 */
-    background-color: #696969;
+#copy-button {
+    padding: 10px 25px; /* パディング調整 */
+    background-color: #6c757d; /* デフォルトはグレー系 */
     color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 20px; /* 角を丸く */
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease, transform 0.1s ease; /* transform追加 */
     text-decoration: none;
+    font-size: 0.9em;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* ソフトな影 */
+}
+#copy-button:hover {
+    background-color: #5a6268;
+    transform: translateY(-1px); /* わずかに浮き上がる効果 */
+}
+#copy-button:active {
+    transform: translateY(0); /* クリック時に元に戻る */
 }
 
 /* コピー成功時のスタイル */
 #copy-button.copied {
-    background-color: #28a745; /* 緑色に変更 */
-    cursor: default; /* カーソルをデフォルトに */
+    background-color: #28a745; /* 緑色 */
+    cursor: default;
+    box-shadow: none; /* 成功時は影を消す */
+    transform: none; /* 浮き上がり効果をリセット */
 }
 #copy-button.copied:hover {
-    background-color: #28a745; /* ホバー時も色を維持 */
+    background-color: #28a745;
+    transform: none;
 }
 
-/* --- 新しいサイズ選択UIのスタイル --- */
+/* --- サイズ選択UIのスタイル --- */
 .size-selector {
-    margin-bottom: 15px; /* ランダム生成ボタンとの間隔 */
-    display: flex;       /* ボタンを横並びにする */
-    justify-content: center; /* 中央揃え */
-    position: relative; /* 追加 */
-    z-index: 10;       /* 追加: 手前に表示 */
+    margin-bottom: 20px; /* ランダム生成ボタンとの間隔 */
+    display: inline-flex; /* inline-flexで中央揃えしやすく */
+    justify-content: center;
+    position: relative;
+    z-index: 10;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12); /* グループ全体に影 */
+    border-radius: 25px; /* グループ全体を丸く */
+    overflow: hidden; /* 角丸を適用するため */
 }
 
 .size-button {
-    padding: 10px 25px; /* ボタンを大きくする */
-    color: white;
+    padding: 12px 30px; /* ボタンを大きく */
+    color: #495057; /* デフォルトの文字色 */
+    background-color: #ffffff; /* デフォルトの背景色 */
     border: none;
     cursor: pointer;
     text-decoration: none;
-    font-size: 1em; /* フォントサイズも少し大きく */
-    transition: background-color 0.2s ease, box-shadow 0.2s ease;
-    background-color: #6c757d; /* デフォルトはグレー */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    margin: 0; /* ボタン間のマージンをなくす */
-    border-radius: 0; /* 基本は角丸なし */
+    font-size: 0.95em;
+    font-weight: 500;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    margin: 0;
+    border-radius: 0; /* 個別の角丸は不要 */
+    /* box-shadow は .size-selector で管理 */
 }
-/* 最初のボタンの左側を角丸に */
-.size-selector .size-button:first-of-type {
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-}
-/* 最後のボタンの右側を角丸に */
-.size-selector .size-button:last-of-type {
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
+/* 隣接するボタンの間に細い線を追加 */
+.size-button + .size-button {
+    border-left: 1px solid #dee2e6;
 }
 
 .size-button:hover {
-    background-color: #5a6268;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-    z-index: 1; /* ホバー時に他のボタンより手前に表示 */
-    position: relative; /* z-indexを有効にするため */
+    background-color: #dee2e6; /* ホバー時の背景色 */
+    color: #212529;
 }
 
 /* アクティブなサイズボタンのスタイル */
 .size-button.active-size {
-    background-color: #007bff;
+    background-color: #007bff; /* プライマリカラー */
     color: white;
     cursor: default;
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
-    z-index: 2; /* アクティブなボタンを最前面に */
-    position: relative; /* z-indexを有効にするため */
+    box-shadow: none; /* アクティブ時は個別の影は不要 */
 }
 .size-button.active-size:hover {
-     background-color: #007bff;
-     box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+     background-color: #007bff; /* ホバーしても色を変えない */
+     box-shadow: none;
 }
 
 /* ランダム生成ボタンのスタイル (個別設定) */
 .new-board-button {
-    display: inline-block; /* Flexコンテナ外なので必要 */
-    padding: 8px 18px; /* サイズ調整 */
-    margin-top: 15px; /* 上のボタン群との間隔 */
-    margin-bottom: 25px; /* グリッドとの間隔 */
+    display: inline-block;
+    padding: 10px 22px; /* パディング調整 */
+    margin-top: 20px; /* 上のボタン群との間隔 */
+    margin-bottom: 35px; /* グリッドとの間隔 */
     color: white;
+    background-color: #17a2b8; /* 別のアクセントカラー (例: Teal) */
     border: none;
-    border-radius: 4px;
+    border-radius: 20px; /* 角を丸く */
     cursor: pointer;
     text-decoration: none;
-    font-size: 0.95em; /* サイズ調整 */
-    transition: background-color 0.2s ease, box-shadow 0.2s ease;
-    background-color: #28a745;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    font-size: 0.95em;
+    font-weight: 500;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
-    position: relative; /* 追加 */
-    z-index: 10;       /* 追加: 手前に表示 */
+    position: relative;
+    z-index: 10;
 }
 .new-board-button:hover {
-     background-color: #218838;
-     box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+     background-color: #138496; /* 少し濃い色 */
+     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+     transform: translateY(-1px);
+}
+.new-board-button:active {
+    transform: translateY(0);
 }
 
-/* --- Hex Grid Layout (サイズ可変対応) --- */
+/* --- Hex Grid Layout (調整) --- */
 :root {
-    --hex-size: 60px; /* 六角形のサイズ（幅基準） */
-    --hex-margin: 18px; /* 六角形間の隙間（水平方向） */
-    --hex-height: calc(var(--hex-size) * 0.86); /* 高さは幅の約0.86倍 */
-    /* 行間のネガティブマージン */
-    --row-margin-top: calc(var(--hex-height) * -0.525 + var(--hex-margin) * 0.1);
+    --hex-size: 55px; /* 少し小さくして密集感を出す */
+    --hex-margin: 15px; /* 隙間も少し狭く */
+    --hex-height: calc(var(--hex-size) * 0.866); /* より正確な高さ (sqrt(3)/2) */
+    --row-margin-top: calc(var(--hex-height) * -0.5 + var(--hex-margin) * 0.1); /* ネガティブマージン調整 */
 }
 
 .hex-grid-container {
-    margin: calc(var(--hex-height) / 2) auto 0;
-    padding: 0;
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    /* コンテナの幅は自動調整 */
-    padding-bottom: var(--hex-height); /* 下にもマージンを確保 */
-    /* --- 追加 --- */
+    margin-top: calc(var(--hex-height) * 2);
+    margin-bottom: calc(var(--hex-height) * 2);
+    margin-left: calc(var(--hex-height) * 1.2);
     transform: rotate(-60deg);
     transform-origin: center center;
-    /* 回転によりレイアウトが崩れる可能性があるため、
-       必要に応じて margin や padding の調整が必要になる場合があります */
-    /* 例: 回転後のスペース確保のためマージンを追加 */
-    margin-left: calc(var(--hex-height) * 1.2); /* 左部マージン調整例 */
-    margin-top: calc(var(--hex-height) * 2); /* 上部マージン調整例 */
-    margin-bottom: calc(var(--hex-height) * 2); /* 下部マージン調整例 */
-
-    /* --- ここまで追加 --- */
 }
 
 .hex-row {
@@ -162,51 +164,30 @@ h1 {
     box-sizing: border-box;
 }
 
-/* 行ごとのオフセット調整 */
-/* 基準: 3個の行 */
-.hex-row-3 {
-     /* オフセットなし */
-}
-
-/* 2個と4個の行は同じオフセット */
-.hex-row-2,
-.hex-row-4 {
-    /* 六角形の半分の幅 + マージン半分のオフセット */
-    /* ユーザー調整値(+3)を除いた基本形 */
-    /* padding-left: calc(var(--hex-size) / 2 + var(--hex-margin) / 2);
-    /* もし以前の調整値(+3)が必要な場合は以下をコメント解除 */
-    padding-left: calc(var(--hex-size) / 2 + var(--hex-margin) / 2 )+3;
-}
-
-/* 1個の行 */
-.hex-row-1 {
-     /* 六角形1個分の幅 + マージン1個分のオフセット */
-     /* ユーザー調整値(+3)を除いた基本形 */
-     /* padding-left: calc(var(--hex-size) + var(--hex-margin));
-     /* もし以前の調整値(+3)が必要な場合は以下をコメント解除 */
-     padding-left: calc(var(--hex-size) + var(--hex-margin) )+3; 
-}
-
 .hex-cell {
     width: var(--hex-size);
     height: var(--hex-height);
     background-color: #ffffff;
     clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
     cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.15s ease; /* transformのtransitionを追加 */
+    transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease; /* box-shadow追加 */
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1); /* 細い境界線 */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); /* セルにもわずかな影 */
     flex-shrink: 0;
-    /* セル間の左右マージン */
     margin-left: var(--hex-margin);
     margin-right: var(--hex-margin);
+}
+.hex-cell:hover {
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15); /* ホバーで影を強調 */
+    transform: translateY(-2px); /* ホバーで少し浮き上がる */
 }
 
 /* クリック時のアニメーション */
 .hex-cell.clicked {
-    transform: scale(0.95); /* 少し縮小 */
+    transform: scale(0.95);
+    transition-duration: 0.1s; /* クリック時は素早く反応 */
 }
 
 .hex-content {
@@ -219,15 +200,13 @@ h1 {
 }
 
 .hex-content img {
-    max-width: 70%;
-    max-height: 70%;
+    max-width: 65%; /* アイコンサイズ微調整 */
+    max-height: 65%;
     display: block;
-    /* --- 追加: コンテナの回転を打ち消す --- */
     transform: rotate(60deg);
-    /* --- ここまで追加 --- */
 }
 
-/* 色の状態 */
+/* 色の状態 (少し彩度を調整) */
 .hex-cell.state-white { background-color: #ffffff; }
-.hex-cell.state-red { background-color: #ff9b9b; }
-.hex-cell.state-blue { background-color: #93dbff; }
+.hex-cell.state-red { background-color: #f8d7da; } /* よりソフトな赤 */
+.hex-cell.state-blue { background-color: #d1ecf1; } /* よりソフトな青 */
