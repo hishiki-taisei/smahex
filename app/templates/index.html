@@ -9,28 +9,19 @@
 </head>
 <body>
     <h1>SMASH HEX </h1>
-    <p>
-        Seed: <strong id="current-seed-display">{{ current_seed }}</strong>
-        {# サイズ切り替えボタン #}
-        <a href="{{ toggle_size_url }}" class="toggle-size-button">
-            盤面を{{ '拡大' if current_size == 'small' else '縮小' }} ({{ opposite_size }})
-        </a>
-    </p>
 
-
-    <form method="GET" action="{{ url_for('view_board') }}" class="seed-form">
-         <label for="seed-input">Seed値で生成:</label>
-         <input type="number" id="seed-input" name="seed"
-                placeholder="数字を入力"
-                value="{{ current_seed }}"
-                required min="0">
-         {# sizeもhiddenフィールドで送信する #}
-         <input type="hidden" name="size" value="{{ current_size }}">
-         <button type="submit" class="seed-button">このSeedで生成</button>
-         {# ランダム生成ボタンはデフォルトサイズで生成するように変更 #}
-         <a href="{{ url_for('home') }}" class="new-board-button" style="margin-left: 10px;">ランダム生成 {{ DEFAULT_BOARD_SIZE }}</a>
-    </form>
-
+    {# --- サイズ選択UI (変更) --- #}
+    <div class="size-selector">
+        {% for size_key, option in size_options.items() %}
+            <a href="{{ option.url }}"
+               class="size-button {{ 'active-size' if option.is_active else '' }}">
+                {{ option.display_name }}
+            </a>
+        {% endfor %}
+    </div>
+    {# ランダム生成ボタンを下に移動 #}
+    <a href="{{ url_for('home') }}" class="new-board-button">ランダム生成</a>
+    {# --- ここまで変更 --- #}
 
     {# --- ハニカムグリッド描画 (row_configに基づいて動的に生成) --- #}
     <div id="hex-grid" class="hex-grid-container">
@@ -62,8 +53,7 @@
 
     <div class="controls">
         <p>
-            マスをクリックすると背景色が変わります (白→赤→青→白)。<br>
-            この盤面を共有する場合は、以下のURLをコピーしてください。
+            盤面を共有する場合は、以下のURLをコピーしてください。
         </p>
         <input type="text" id="share-url-input" value="{{ share_url }}" readonly>
         <button id="copy-button">クリップボードにコピー</button>

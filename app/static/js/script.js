@@ -11,6 +11,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const cell = event.target.closest('.hex-cell');
             if (!cell) return; // 関係ない場所をクリックした場合は何もしない
 
+            // --- クリックフィードバック ---
+            cell.classList.add('clicked');
+            // アニメーションが終わる頃にクラスを削除
+            setTimeout(() => {
+                cell.classList.remove('clicked');
+            }, 150); // CSSのtransition時間より少し短くても良い
+            // --- ここまで追加 ---
+
             // 現在の色状態を取得
             const currentState = cell.classList.contains('state-red') ? 'red' :
                                  cell.classList.contains('state-blue') ? 'blue' : 'white';
@@ -42,9 +50,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     // 成功時のフィードバック
                     copyFeedback.textContent = 'コピーしました！';
                     copyButton.textContent = 'コピー完了';
+                    copyButton.classList.add('copied'); // copiedクラスを追加
+
                     setTimeout(() => {
                         copyFeedback.textContent = '';
                         copyButton.textContent = 'クリップボードにコピー';
+                        copyButton.classList.remove('copied'); // copiedクラスを削除
                     }, 2000); // 2秒後に元に戻す
                 })
                 .catch(err => {

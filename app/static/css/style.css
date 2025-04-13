@@ -9,6 +9,7 @@ body {
 
 h1 {
     color: #333;
+    margin-bottom: 10px; /* タイトルとサイズ選択の間隔調整 */
 }
 
 /* --- コントロールエリア (コピーボタンなど) --- */
@@ -47,6 +48,15 @@ h1 {
     background-color: #0056b3;
 }
 
+/* コピー成功時のスタイル */
+#copy-button.copied {
+    background-color: #28a745; /* 緑色に変更 */
+    cursor: default; /* カーソルをデフォルトに */
+}
+#copy-button.copied:hover {
+    background-color: #28a745; /* ホバー時も色を維持 */
+}
+
 .copy-feedback {
     margin-top: 5px;
     font-size: 0.9em;
@@ -54,99 +64,79 @@ h1 {
     min-height: 1.2em;
 }
 
-/* --- Seed入力フォームのスタイル --- */
-.seed-form {
-    margin-bottom: 25px; /* グリッドとの間隔 */
-    display: flex; /* 横並び */
+/* --- 新しいサイズ選択UIのスタイル --- */
+.size-selector {
+    margin-bottom: 15px; /* ランダム生成ボタンとの間隔 */
+    display: flex;       /* ボタンを横並びにする */
     justify-content: center; /* 中央揃え */
-    align-items: center; /* 垂直中央揃え */
-    flex-wrap: wrap; /* 画面幅が狭い場合に折り返す */
-    gap: 10px; /* 要素間の隙間 */
 }
 
-.seed-form label {
-    font-weight: bold;
-    margin-right: 5px;
-}
-
-.seed-form input[type="number"] {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 150px; /* 幅を適宜調整 */
-    text-align: right; /* 数字なので右寄せに */
-}
-/* Webkit系ブラウザで数値入力のスピナー（上下ボタン）を非表示にする場合 */
-.seed-form input[type=number]::-webkit-inner-spin-button,
-.seed-form input[type=number]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-/* Firefox用 */
-.seed-form input[type=number] {
-  -moz-appearance: textfield;
-}
-
-/* Seedフォーム内のボタン共通スタイル */
-.seed-form .seed-button,
-.seed-form .new-board-button {
-    padding: 8px 15px; /* 少し小さめに */
+.size-button {
+    padding: 10px 25px; /* ボタンを大きくする */
     color: white;
     border: none;
-    border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.2s ease;
-    text-decoration: none; /* aタグ用 */
-    display: inline-block; /* aタグ用 */
+    text-decoration: none;
+    font-size: 1em; /* フォントサイズも少し大きく */
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    background-color: #6c757d; /* デフォルトはグレー */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin: 0; /* ボタン間のマージンをなくす */
+    border-radius: 0; /* 基本は角丸なし */
 }
-/* 個別の色設定 */
-.seed-form .seed-button {
-    background-color: #28a745; /* 生成ボタンの色 */
+/* 最初のボタンの左側を角丸に */
+.size-selector .size-button:first-of-type {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
 }
-.seed-form .new-board-button {
-     background-color: #007bff; /* ランダム生成ボタンの色 */
-}
-
-/* ホバーエフェクト */
-.seed-form .seed-button:hover {
-    background-color: #218838;
-}
-.seed-form .new-board-button:hover {
-     background-color: #0056b3;
-}
-
-/* 現在のSeed値表示スタイル */
-#current-seed-display {
-    font-size: 1.1em;
-    color: #555;
-    background-color: #eee;
-    padding: 2px 6px;
-    border-radius: 4px;
-    margin-left: 5px;
-    vertical-align: middle; /* ボタンと高さを合わせる */
+/* 最後のボタンの右側を角丸に */
+.size-selector .size-button:last-of-type {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
+.size-button:hover {
+    background-color: #5a6268;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    z-index: 1; /* ホバー時に他のボタンより手前に表示 */
+    position: relative; /* z-indexを有効にするため */
+}
 
-/* --- サイズ切り替えボタンのスタイル --- */
-.toggle-size-button {
-    display: inline-block;
-    padding: 5px 10px;
-    margin-left: 15px; /* Seed表示との間隔 */
-    background-color: #6c757d; /* グレー系 */
+/* アクティブなサイズボタンのスタイル */
+.size-button.active-size {
+    background-color: #007bff;
+    color: white;
+    cursor: default;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+    z-index: 2; /* アクティブなボタンを最前面に */
+    position: relative; /* z-indexを有効にするため */
+}
+.size-button.active-size:hover {
+     background-color: #007bff;
+     box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+}
+
+/* ランダム生成ボタンのスタイル (個別設定) */
+.new-board-button {
+    display: inline-block; /* Flexコンテナ外なので必要 */
+    padding: 8px 18px; /* サイズ調整 */
+    margin-top: 15px; /* 上のボタン群との間隔 */
+    margin-bottom: 25px; /* グリッドとの間隔 */
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     text-decoration: none;
-    font-size: 0.9em;
-    vertical-align: middle; /* Seed表示と高さを合わせる */
-    transition: background-color 0.2s ease;
+    font-size: 0.95em; /* サイズ調整 */
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    background-color: #28a745;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-sizing: border-box;
 }
-
-.toggle-size-button:hover {
-    background-color: #5a6268;
+.new-board-button:hover {
+     background-color: #218838;
+     box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
-
 
 /* --- Hex Grid Layout (サイズ可変対応) --- */
 :root {
@@ -166,6 +156,15 @@ h1 {
     align-items: center;
     /* コンテナの幅は自動調整 */
     padding-bottom: var(--hex-height); /* 下にもマージンを確保 */
+    /* --- 追加 --- */
+    transform: rotate(-30deg);
+    transform-origin: center center;
+    /* 回転によりレイアウトが崩れる可能性があるため、
+       必要に応じて margin や padding の調整が必要になる場合があります */
+    /* 例: 回転後のスペース確保のためマージンを追加 */
+    margin-top: calc(var(--hex-height) * 1.5); /* 上部マージン調整例 */
+    margin-bottom: calc(var(--hex-height) * 1.5); /* 下部マージン調整例 */
+    /* --- ここまで追加 --- */
 }
 
 .hex-row {
@@ -200,14 +199,13 @@ h1 {
      padding-left: calc(var(--hex-size) + var(--hex-margin) )+3; 
 }
 
-
 .hex-cell {
     width: var(--hex-size);
     height: var(--hex-height);
     background-color: #ffffff;
     clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease, transform 0.15s ease; /* transformのtransitionを追加 */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -216,6 +214,11 @@ h1 {
     /* セル間の左右マージン */
     margin-left: var(--hex-margin);
     margin-right: var(--hex-margin);
+}
+
+/* クリック時のアニメーション */
+.hex-cell.clicked {
+    transform: scale(0.95); /* 少し縮小 */
 }
 
 .hex-content {
@@ -231,6 +234,9 @@ h1 {
     max-width: 70%;
     max-height: 70%;
     display: block;
+    /* --- 追加: コンテナの回転を打ち消す --- */
+    transform: rotate(30deg);
+    /* --- ここまで追加 --- */
 }
 
 /* 色の状態 */
