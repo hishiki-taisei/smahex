@@ -140,42 +140,11 @@ h1 {
 
 /* --- Hex Grid Layout (サイズ可変対応) --- */
 :root {
-    /* デフォルト (PC) サイズ */
-    --hex-size: 60px;
-    --hex-margin: 18px;
-    --hex-height: calc(var(--hex-size) * 0.86);
+    --hex-size: 60px; /* 六角形のサイズ（幅基準） */
+    --hex-margin: 18px; /* 六角形間の隙間（水平方向） */
+    --hex-height: calc(var(--hex-size) * 0.86); /* 高さは幅の約0.86倍 */
+    /* 行間のネガティブマージン */
     --row-margin-top: calc(var(--hex-height) * -0.525 + var(--hex-margin) * 0.1);
-    /* 回転用マージン (PC) */
-    --rotation-margin-top: calc(var(--hex-height) * 1.5);
-    --rotation-margin-bottom: calc(var(--hex-height) * 1.5);
-    --rotation-margin-left: calc(var(--hex-height) * 0.7);
-}
-
-/* モバイル向けスタイル (例: 画面幅が768px以下の場合) */
-@media (max-width: 768px) {
-    :root {
-        /* モバイル用の小さいサイズ */
-        --hex-size: 40px; /* PCより小さく */
-        --hex-margin: 10px; /* PCより小さく */
-        /* --hex-height と --row-margin-top は自動的に再計算される */
-        /* 回転用マージン (モバイル) */
-        --rotation-margin-top: calc(var(--hex-height) * 1.2); /* 少し小さく */
-        --rotation-margin-bottom: calc(var(--hex-height) * 1.2); /* 少し小さく */
-        --rotation-margin-left: calc(var(--hex-height) * 0.5); /* 少し小さく */
-    }
-}
-
-/* モバイル向けスタイル (例: 画面幅が480px以下の場合 - さらに小さく) */
-@media (max-width: 480px) {
-    :root {
-        /* さらに小さいサイズ */
-        --hex-size: 30px;
-        --hex-margin: 6px;
-        /* 回転用マージン (さらに小さい画面) */
-        --rotation-margin-top: calc(var(--hex-height) * 1.0);
-        --rotation-margin-bottom: calc(var(--hex-height) * 1.0);
-        --rotation-margin-left: calc(var(--hex-height) * 0.3);
-    }
 }
 
 .hex-grid-container {
@@ -185,13 +154,16 @@ h1 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-bottom: var(--hex-height);
+    /* コンテナの幅は自動調整 */
+    padding-bottom: var(--hex-height); /* 下にもマージンを確保 */
+    /* --- 追加 --- */
     transform: rotate(-30deg);
     transform-origin: center center;
-    /* 回転用マージンを変数で適用 */
-    margin-top: var(--rotation-margin-top);
-    margin-bottom: var(--rotation-margin-bottom);
-    margin-left: var(--rotation-margin-left);
+    /* 回転によりレイアウトが崩れる可能性があるため、
+       必要に応じて margin や padding の調整が必要になる場合があります */
+    /* 例: 回転後のスペース確保のためマージンを追加 */
+    margin-left: calc(var(--hex-height) * 0.7); /* 左部マージン調整例 */
+    /* --- ここまで追加 --- */
 }
 
 .hex-row {
@@ -209,21 +181,26 @@ h1 {
 
 /* 2個と4個の行は同じオフセット */
 .hex-row-2,
-.hex-row-4,
-.hex-row-6 { /* medium, large用に6も追加 */
-    padding-left: calc(var(--hex-size) / 2 + var(--hex-margin) / 2 + 3px); /* 以前の+3pxを維持 */
+.hex-row-4 {
+    /* 六角形の半分の幅 + マージン半分のオフセット */
+    /* ユーザー調整値(+3)を除いた基本形 */
+    /* padding-left: calc(var(--hex-size) / 2 + var(--hex-margin) / 2);
+    /* もし以前の調整値(+3)が必要な場合は以下をコメント解除 */
+    padding-left: calc(var(--hex-size) / 2 + var(--hex-margin) / 2 )+3;
 }
 
-/* 1個と5個の行 */
-.hex-row-1,
-.hex-row-5,
-.hex-row-7 { /* medium, large用に5, 7も追加 */
-     padding-left: calc(var(--hex-size) + var(--hex-margin) + 3px); /* 以前の+3pxを維持 */
+/* 1個の行 */
+.hex-row-1 {
+     /* 六角形1個分の幅 + マージン1個分のオフセット */
+     /* ユーザー調整値(+3)を除いた基本形 */
+     /* padding-left: calc(var(--hex-size) + var(--hex-margin));
+     /* もし以前の調整値(+3)が必要な場合は以下をコメント解除 */
+     padding-left: calc(var(--hex-size) + var(--hex-margin) )+3; 
 }
 
 .hex-cell {
-    width: var(--hex-size); /* 変数を参照 */
-    height: var(--hex-height); /* 変数を参照 */
+    width: var(--hex-size);
+    height: var(--hex-height);
     background-color: #ffffff;
     clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
     cursor: pointer;
@@ -234,8 +211,8 @@ h1 {
     box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1); /* 細い境界線 */
     flex-shrink: 0;
     /* セル間の左右マージン */
-    margin-left: var(--hex-margin); /* 変数を参照 */
-    margin-right: var(--hex-margin); /* 変数を参照 */
+    margin-left: var(--hex-margin);
+    margin-right: var(--hex-margin);
 }
 
 /* クリック時のアニメーション */
