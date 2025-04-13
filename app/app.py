@@ -25,10 +25,17 @@ BOARD_CONFIGS = {
         'display_name': '7x7', # 表示名を追加
         'grid_size': 49,
         'rows': [1, 2, 3, 4, 5, 6, 7, 6, 5, 4, 3, 2, 1]
+    },
+    # --- 8x8 サイズを追加 ---
+    'xlarge': {
+        'display_name': '8x8',
+        'grid_size': 64, # 1+2+...+7+8+7+...+1 = 64
+        'rows': [1, 2, 3, 4, 5, 6, 7, 8, 7, 6, 5, 4, 3, 2, 1]
     }
+    # --- ここまで追加 ---
 }
 # 利用可能なサイズの順序付きリスト
-AVAILABLE_SIZES = list(BOARD_CONFIGS.keys()) # ['small', 'medium', 'large']
+AVAILABLE_SIZES = list(BOARD_CONFIGS.keys()) # ['small', 'medium', 'large', 'xlarge']
 
 DEFAULT_BOARD_SIZE = 'small'
 MAX_ICONS_NEEDED = max(config['grid_size'] for config in BOARD_CONFIGS.values())
@@ -127,7 +134,12 @@ def view_board():
     selected_icons = generate_icons_from_seed(current_seed, grid_size)
 
     if selected_icons is None:
-        return f"エラー: アイコンの生成に失敗しました。アイコン数({len(all_icons_list) if all_icons_list else 0})が指定サイズ({grid_size})に対して不足している可能性があります。", 500
+        # アイコンリスト自体がない場合と、数が足りない場合でメッセージを分ける
+        if all_icons_list is None:
+             error_msg = f"エラー: アイコンリストの読み込みに失敗しました。フォルダ({ICON_FOLDER})を確認してください。"
+        else:
+             error_msg = f"エラー: アイコンの生成に失敗しました。アイコン数({len(all_icons_list)})が指定サイズ({grid_size})に対して不足しています。"
+        return error_msg, 500
 
     # 共有用のURL (seedとsizeを含む)
     share_url = url_for('view_board', seed=current_seed, size=current_size_key, _external=True)
@@ -157,6 +169,9 @@ def view_board():
 
 if __name__ == '__main__':
     if all_icons_list is None:
-        print(f"エラー: アイコンリストを読み込めませんでした。必要なアイコン数: {MAX_ICONS_NEEDED}。アプリケーションを終了します。")
+        print(f"エラー: アイコンリストを読み込めませんでした。必要なアイコン数: {MAX_ICONS_NEEDED}。アイコンフォルダ({ICON_FOLDER})を確認してください。アプリケーションを終了します。")
+    elif len(all_icons_list) < MAX_ICONS_NEEDED:
+         print(f"警告: アイコン数が最大盤面サイズ({MAX_ICONS_NEEDED})に対して不足しています({len(all_icons_list)}個)。一部の盤面サイズでエラーが発生する可能性があります。")
+         app.run(debug=True) # 警告は出すが、起動は試みる
     else:
         app.run(debug=True)
