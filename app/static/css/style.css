@@ -7,7 +7,7 @@ html {
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* よりモダンなフォント候補 */
     margin: 0; /* bodyのマージンを削除 */
-    padding: 30px 20px; /* 上下にパディングを追加 */
+    padding: 0 0 30px 0; /* 上左右のパディングを削除、下だけ残す */
     background-color: #ebebeb; /* 少し明るい背景色 */
     color: #343a40; /* デフォルトテキストカラー */
     text-align: center;
@@ -15,12 +15,14 @@ body {
 }
 
 h1 {
-    color: #ffffff;
-    background-color: #ff3535;
-    padding : 20px 0; /* 上下にパディングを追加 */
-    margin-bottom: 20px; /* ボタン群との間隔を調整 */
-    font-weight: 600; /* 少し太く */
-    letter-spacing: 0.5px; /* 文字間隔を少し広げる */
+    color: #fff; /* white */
+    background: linear-gradient(135deg, #ff6b6b, #ff3535); /* 赤系のグラデーション */
+    padding : 25px 0; /* パディングを少し増やす */
+    margin: 0 0 25px 0; /* 下マージン調整 */
+    font-weight: 700; /* さらに太く */
+    letter-spacing: 1.5px; /* 文字間隔を広げる */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* テキストに影を追加 */
+    text-transform: uppercase; /* 全て大文字に */
 }
 
 /* --- コントロールエリア (コピーボタンなど) --- */
@@ -204,9 +206,17 @@ h1 {
     max-height: 65%;
     display: block;
     transform: rotate(60deg);
+    /* --- 画像を選択不可にするスタイルを追加 --- */
+    user-select: none; /* テキスト選択を無効化 */
+    -webkit-user-select: none; /* Safari/Chrome用 */
+    -moz-user-select: none; /* Firefox用 */
+    -ms-user-select: none; /* IE/Edge用 */
+    pointer-events: none; /* マウスイベントのターゲットにならないようにする */
+    -webkit-user-drag: none; /* ドラッグを無効化 (WebKit系) */
+    /* --- ここまで追加 --- */
 }
 
 /* 色の状態 (少し彩度を調整) */
 .hex-cell.state-white { background-color: #ffffff; }
-.hex-cell.state-red { background-color: #f8d7da; } /* よりソフトな赤 */
-.hex-cell.state-blue { background-color: #d1ecf1; } /* よりソフトな青 */
+.hex-cell.state-red { background-color: #fe8f99; } /* よりソフトな赤 */
+.hex-cell.state-blue { background-color: #8de9f9; } /* よりソフトな青 */
