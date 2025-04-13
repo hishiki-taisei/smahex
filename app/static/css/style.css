@@ -157,12 +157,15 @@ h1 {
     /* コンテナの幅は自動調整 */
     padding-bottom: var(--hex-height); /* 下にもマージンを確保 */
     /* --- 追加 --- */
-    transform: rotate(-30deg);
+    transform: rotate(-60deg);
     transform-origin: center center;
     /* 回転によりレイアウトが崩れる可能性があるため、
        必要に応じて margin や padding の調整が必要になる場合があります */
     /* 例: 回転後のスペース確保のためマージンを追加 */
-    margin-left: calc(var(--hex-height) * 0.7); /* 左部マージン調整例 */
+    margin-left: calc(var(--hex-height) * 1); /* 左部マージン調整例 */
+    margin-top: calc(var(--hex-height) * 1); /* 上部マージン調整例 */
+    margin-bottom: calc(var(--hex-height) * 1); /* 下部マージン調整例 */
+
     /* --- ここまで追加 --- */
 }
 
@@ -234,7 +237,7 @@ h1 {
     max-height: 70%;
     display: block;
     /* --- 追加: コンテナの回転を打ち消す --- */
-    transform: rotate(30deg);
+    transform: rotate(60deg);
     /* --- ここまで追加 --- */
 }
 
@@ -242,72 +245,3 @@ h1 {
 .hex-cell.state-white { background-color: #ffffff; }
 .hex-cell.state-red { background-color: #ffcccc; }
 .hex-cell.state-blue { background-color: #cceeff; }
-
-/* --- モバイル表示用の調整 --- */
-@media (max-width: 768px) {
-    /* Mediumサイズ (6x6) の縮小 */
-    body.size-medium:root {
-        --hex-size: 40px;
-        --hex-margin: 12px;
-    }
-    body.size-medium .hex-grid-container {
-        margin-bottom: calc(var(--hex-height) * 1.5);
-        margin-left: calc(var(--hex-height) * 0.7);
-    }
-
-    /* Largeサイズ (7x7) の縮小 (Mediumより少し小さくする例) */
-    body.size-large:root {
-        --hex-size: 35px; /* Mediumより小さい値 */
-        --hex-margin: 10px; /* Mediumより小さい値 */
-    }
-    body.size-large .hex-grid-container {
-        margin-bottom: calc(var(--hex-height) * 1.5);
-        margin-left: calc(var(--hex-height) * 0.7);
-    }
-
-    /* Smallサイズ (5x5) はここでは変更しない */
-
-    /* ボタンやコントロールエリアの共通調整はそのまま */
-    .size-button {
-        padding: 8px 18px;
-        font-size: 0.9em;
-    }
-    .new-board-button {
-        padding: 6px 15px;
-        font-size: 0.9em;
-    }
-    .controls {
-        padding: 10px;
-    }
-    #share-url-input {
-        width: 70%;
-    }
-    #copy-button {
-        padding: 8px 12px;
-    }
-}
-
-/* さらに小さい画面用の調整 (任意) */
-@media (max-width: 480px) {
-    /* Mediumサイズ (6x6) のさらなる縮小 */
-    body.size-medium:root {
-        --hex-size: 20px;
-        --hex-margin: 6px;
-    }
-     body.size-medium .hex-grid-container {
-        margin-bottom: calc(var(--hex-height) * 1.5);
-        margin-left: calc(var(--hex-height) * 2);
-    }
-
-    /* Largeサイズ (7x7) のさらなる縮小 */
-    body.size-large:root {
-        --hex-size: 20px; /* さらに小さい値 */
-        --hex-margin: 6px; /* さらに小さい値 */
-    }
-     body.size-large .hex-grid-container {
-        margin-bottom: calc(var(--hex-height) * 1.5);
-        margin-left: calc(var(--hex-height) * 10);
-    }
-
-
-}
