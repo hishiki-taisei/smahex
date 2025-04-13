@@ -163,7 +163,7 @@ h1 {
        必要に応じて margin や padding の調整が必要になる場合があります */
     /* 例: 回転後のスペース確保のためマージンを追加 */
     margin-bottom: calc(var(--hex-height) * 1.5); /* 下部マージン調整例 */
-    margin-left: calc(var(--hex-height) * 0.5); /* 左部マージン調整例 */
+    margin-left: calc(var(--hex-height) * 0.6); /* 左部マージン調整例 */
     /* --- ここまで追加 --- */
 }
 
@@ -243,3 +243,56 @@ h1 {
 .hex-cell.state-white { background-color: #ffffff; }
 .hex-cell.state-red { background-color: #ffcccc; }
 .hex-cell.state-blue { background-color: #cceeff; }
+
+/* --- レスポンシブ対応: 画面幅が小さい場合 --- */
+@media (max-width: 768px) {
+    :root {
+        /* ヘクスサイズとマージンを小さくする */
+        --hex-size: 40px;   /* 例: 60px -> 40px */
+        --hex-margin: 10px; /* 例: 18px -> 10px */
+        /* --hex-height と --row-margin-top は自動的に再計算される */
+    }
+
+    /* ボタンのサイズも少し調整 */
+    .size-button {
+        padding: 8px 18px;
+        font-size: 0.9em;
+    }
+    .new-board-button {
+        padding: 7px 15px;
+        font-size: 0.9em;
+    }
+
+    /* 回転コンテナのマージンも再計算されるが、必要なら微調整 */
+    .hex-grid-container {
+        /* 必要に応じて margin-top, margin-bottom, margin-left を調整 */
+        /* 例: margin-left: calc(var(--hex-height) * 0.3); */
+    }
+
+    /* コントロールエリアの文字サイズなど調整 */
+    .controls p {
+        font-size: 0.9em;
+    }
+    #share-url-input {
+        padding: 6px;
+    }
+    #copy-button {
+        padding: 8px 12px;
+    }
+}
+
+@media (max-width: 480px) {
+     :root {
+        /* さらに小さい画面用 */
+        --hex-size: 30px;   /* 例: 40px -> 30px */
+        --hex-margin: 6px; /* 例: 10px -> 6px */
+    }
+     .size-button {
+        padding: 6px 12px;
+        font-size: 0.8em;
+    }
+    .new-board-button {
+        padding: 5px 10px;
+        font-size: 0.8em;
+    }
+}
