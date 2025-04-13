@@ -75,7 +75,7 @@ h1 {
 
 /* --- サイズ選択UIのスタイル --- */
 .size-selector {
-    margin-bottom: 20px; /* ランダム生成ボタンとの間隔 */
+    margin-top: 25px; /* h1との間隔 */
     display: inline-flex; /* inline-flexで中央揃えしやすく */
     justify-content: center;
     position: relative;
@@ -121,12 +121,23 @@ h1 {
      box-shadow: none;
 }
 
+/* --- コントロール2行目のスタイル --- */
+.controls-row-2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px; /* 要素間の隙間 */
+    margin-top: 20px; /* サイズ選択ボタンとの間隔 */
+    margin-bottom: 35px; /* グリッドとの間隔 */
+    position: relative; /* z-indexのため */
+    z-index: 10; /* 他の要素より手前に */
+    flex-wrap: wrap; /* 画面幅が狭い場合に折り返す */
+}
+
 /* ランダム生成ボタンのスタイル (個別設定) */
 .new-board-button {
     display: inline-block;
-    padding: 10px 22px; /* パディング調整 */
-    margin-top: 20px; /* 上のボタン群との間隔 */
-    margin-bottom: 35px; /* グリッドとの間隔 */
+    padding: 8px 18px; /* パディング調整 */
     color: white;
     background-color: #17a2b8; /* 別のアクセントカラー (例: Teal) */
     border: none;
@@ -138,8 +149,6 @@ h1 {
     transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
-    position: relative;
-    z-index: 10;
 }
 .new-board-button:hover {
      background-color: #138496; /* 少し濃い色 */
@@ -148,6 +157,77 @@ h1 {
 }
 .new-board-button:active {
     transform: translateY(0);
+}
+
+/* --- Seed入力フォームのスタイル --- */
+.seed-form {
+    display: flex; /* 横並びにする */
+    justify-content: center; /* 中央揃え */
+    align-items: center; /* 垂直方向中央揃え */
+}
+
+#seed-input {
+    padding: 9px 10px;
+    border: 1px solid #ced4da;
+    /* border-radius: 15px; */
+    border-top-left-radius: 15px;    /* 左上を丸める */
+    border-bottom-left-radius: 15px; /* 左下を丸める */
+    border-right: none;              /* 右の境界線を削除 */
+    font-size: 0.9em;
+    width: 50px; /* 幅を指定 (4桁程度) */
+    text-align: center;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.075);
+    -moz-appearance: textfield; /* Firefoxでのスピナー非表示 */
+    /* z-index を追加してボタンより手前に */
+    position: relative;
+    z-index: 1;
+}
+/* Chrome, Safari, Edge, Operaでのスピナー非表示 */
+#seed-input::-webkit-outer-spin-button,
+#seed-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+#seed-submit {
+    padding: 7.5px 10px; /* 少し小さく */
+    background-color: #6c757d;
+    color: white;
+    border: 1px solid #6c757d;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    cursor: pointer;
+    font-size: 0.85em; /* フォントも少し小さく */
+    font-weight: 500;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+#seed-submit:hover {
+    background-color: #5a6268;
+    transform: translateY(-1px);
+}
+#seed-submit:active {
+    transform: translateY(0);
+}
+
+/* --- 重複チェックボックスのスタイル --- */
+.duplicate-checkbox-container {
+    display: inline-flex; /* labelとcheckboxをインラインで中央揃え */
+    align-items: center;
+    gap: 5px; /* labelとcheckboxの間隔 */
+}
+
+.duplicate-checkbox-container label {
+    font-size: 0.9em;
+    color: #495057;
+    cursor: pointer;
+}
+
+.duplicate-checkbox-container input[type="checkbox"] {
+    cursor: pointer;
+    /* 必要に応じてチェックボックス自体のスタイルを調整 */
+    width: 15px;
+    height: 15px;
 }
 
 /* --- Hex Grid Layout (調整) --- */
@@ -159,8 +239,8 @@ h1 {
 }
 
 .hex-grid-container {
-    margin-top: calc(var(--hex-height) * 2);
-    margin-bottom: calc(var(--hex-height) * 2);
+    margin-top: calc(var(--hex-height) * 2.4);
+    margin-bottom: calc(var(--hex-height) * 2.4);
     margin-left: calc(var(--hex-height) * 0);
     transform: rotate(-60deg);
     transform-origin: center center;
@@ -176,7 +256,7 @@ h1 {
 .hex-cell {
     width: var(--hex-size);
     height: var(--hex-height);
-    background-color: #ffffff;
+    background-color: #ffffff; /* デフォルトの背景色 (重複なし or 重複無効時) */
     clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
     cursor: pointer;
     transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease; /* box-shadow追加 */
@@ -197,6 +277,19 @@ h1 {
 .hex-cell.clicked {
     transform: scale(0.95);
     transition-duration: 0.1s; /* クリック時は素早く反応 */
+}
+
+/* --- 重複度に応じた背景色 --- */
+/* data-duplicates="1" はデフォルトの #ffffff が適用される */
+.hex-cell[data-duplicates="2"] { background-color: #fffff1; } /* 薄い黄色 (LemonChiffon) */
+.hex-cell[data-duplicates="3"] { background-color: #ffffe5; } /* やや濃い黄色 */
+/* 4つ以上は同じ色 */
+.hex-cell[data-duplicates="4"] { background-color: #fefbcb; }
+.hex-cell[data-duplicates="5"],
+.hex-cell[data-duplicates="6"],
+.hex-cell[data-duplicates="7"],
+.hex-cell[data-duplicates="8"] { /* 必要に応じてさらに追加 */
+    background-color: #fdfa66; /* 濃い黄色 (Gold) */
 }
 
 .hex-content {
@@ -223,7 +316,7 @@ h1 {
     /* --- ここまで追加 --- */
 }
 
-/* 色の状態 (少し彩度を調整) */
+/* 色の状態 (重複スタイルより優先) */
 .hex-cell.state-white { background-color: #ffffff; }
 .hex-cell.state-red { background-color: #fe8f8f; } /* よりソフトな赤 */
-.hex-cell.state-blue { background-color: #a48df9; } /* よりソフトな青 */
+.hex-cell.state-blue { background-color: #8d9df9; } /* よりソフトな青 */

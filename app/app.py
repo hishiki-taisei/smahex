@@ -3,6 +3,7 @@ import random
 from flask import Flask, render_template, request, redirect, url_for, abort
 from urllib.parse import quote, unquote
 import time
+from collections import Counter # collections.Counter をインポート
 
 app = Flask(__name__)
 
@@ -56,20 +57,30 @@ def get_all_icons():
 
 all_icons_list = get_all_icons()
 
-def generate_icons_from_seed(seed_value, grid_size):
+def generate_icons_from_seed(seed_value, grid_size, allow_duplicates=False): # allow_duplicates 引数を追加
     """指定されたSeed値とサイズに基づいてアイコンリストを生成する"""
     if all_icons_list is None:
         return None
-    if len(all_icons_list) < grid_size: # 要求されたサイズのアイコン数があるか再確認
+
+    # 必要なアイコン数チェック (重複を許可しない場合のみ)
+    if not allow_duplicates and len(all_icons_list) < grid_size:
          print(f"エラー: 指定されたサイズ({grid_size})に対してアイコン数が不足しています。")
+         return None
+    # 重複許可の場合は全アイコンリストが空でなければOK
+    if allow_duplicates and not all_icons_list:
+         print(f"エラー: アイコンリストが空です。")
          return None
 
     try:
         random.seed(seed_value)
-        shuffled_icons = list(all_icons_list)
-        random.shuffle(shuffled_icons)
-        # 要求されたグリッドサイズ分のアイコンを返す
-        selected_icons = shuffled_icons[:grid_size]
+        if allow_duplicates:
+            # 重複を許可する場合: リストから重複ありで grid_size 個選択
+            selected_icons = random.choices(all_icons_list, k=grid_size)
+        else:
+            # 重複を許可しない場合 (従来通り)
+            shuffled_icons = list(all_icons_list)
+            random.shuffle(shuffled_icons)
+            selected_icons = shuffled_icons[:grid_size]
         return selected_icons
     except Exception as e:
         print(f"Seedからのアイコン生成中にエラー: {e}")
@@ -86,38 +97,46 @@ def home():
     # デフォルトサイズ(small)でリダイレクト
     return redirect(url_for('view_board', seed=random_seed, size=DEFAULT_BOARD_SIZE))
 
-# --- 新しいランダム生成ルートを追加 ---
 @app.route('/random')
 def random_generate():
     """
-    現在のサイズを維持したまま、新しいランダムSeedで盤面を再生成する
+    現在のサイズと重複設定を維持したまま、新しいランダムSeedで盤面を再生成する
     """
-    # クエリパラメータから現在のサイズを取得、なければデフォルト
     current_size = request.args.get('size', DEFAULT_BOARD_SIZE).lower()
     if current_size not in BOARD_CONFIGS:
         current_size = DEFAULT_BOARD_SIZE
 
+    # 重複許可フラグを取得
+    allow_duplicates_flag = request.args.get('allow_duplicates') == 'on'
+
     random_seed = random.randint(1000, 9999)
-    # 受け取ったサイズと新しいSeedでリダイレクト
-    return redirect(url_for('view_board', seed=random_seed, size=current_size))
-# --- ここまで追加 ---
+    # リダイレクトURLに allow_duplicates を追加
+    redirect_params = {'seed': random_seed, 'size': current_size}
+    if allow_duplicates_flag:
+        redirect_params['allow_duplicates'] = 'on'
+
+    return redirect(url_for('view_board', **redirect_params))
 
 @app.route('/view')
 def view_board():
     """
-    URLパラメータからSeed値とサイズを受け取り、盤面を表示する
+    URLパラメータからSeed値、サイズ、重複設定を受け取り、盤面を表示する
     """
     seed_str = request.args.get('seed', None)
-    current_size_key = request.args.get('size', DEFAULT_BOARD_SIZE).lower() # 内部的なキー
+    current_size_key = request.args.get('size', DEFAULT_BOARD_SIZE).lower()
+    # 重複許可フラグを取得 (パラメータが 'on' の場合に True)
+    allow_duplicates_flag = request.args.get('allow_duplicates') == 'on'
 
     # sizeパラメータが不正な場合はデフォルトにフォールバック
     if current_size_key not in BOARD_CONFIGS:
         current_size_key = DEFAULT_BOARD_SIZE
 
     if not seed_str:
-        # seedがない場合は /random ルートにリダイレクトして処理させる
-        # (現在のサイズを引き継ぐため)
-        return redirect(url_for('random_generate', size=current_size_key))
+        # リダイレクト時にも allow_duplicates を引き継ぐ
+        redirect_params = {'size': current_size_key}
+        if allow_duplicates_flag:
+             redirect_params['allow_duplicates'] = 'on'
+        return redirect(url_for('random_generate', **redirect_params))
 
     try:
         current_seed = int(seed_str)
@@ -130,8 +149,8 @@ def view_board():
     row_config = current_config['rows']
     current_display_name = current_config['display_name'] # 現在の表示名
 
-    # Seed値を使ってアイコンリストを生成
-    selected_icons = generate_icons_from_seed(current_seed, grid_size)
+    # Seed値と重複設定を使ってアイコンリストを生成
+    selected_icons = generate_icons_from_seed(current_seed, grid_size, allow_duplicates=allow_duplicates_flag)
 
     if selected_icons is None:
         # アイコンリスト自体がない場合と、数が足りない場合でメッセージを分ける
@@ -141,19 +160,30 @@ def view_board():
              error_msg = f"エラー: アイコンの生成に失敗しました。アイコン数({len(all_icons_list)})が指定サイズ({grid_size})に対して不足しています。"
         return error_msg, 500
 
-    # 共有用のURL (seedとsizeを含む)
-    share_url = url_for('view_board', seed=current_seed, size=current_size_key, _external=True)
+    # --- アイコンの出現回数をカウント (重複許可の場合のみ) ---
+    icon_counts = {}
+    if allow_duplicates_flag and selected_icons:
+        icon_counts = Counter(selected_icons)
+    # --- ここまで追加 ---
 
-    # --- 全サイズの切り替え情報を生成 ---
+    # 共有用のURL (allow_duplicates を含む)
+    share_url_params = {'seed': current_seed, 'size': current_size_key, '_external': True}
+    if allow_duplicates_flag:
+        share_url_params['allow_duplicates'] = 'on'
+    share_url = url_for('view_board', **share_url_params)
+
+    # --- 全サイズの切り替え情報を生成 (allow_duplicates を含む) ---
     size_options = {}
     for size_key in AVAILABLE_SIZES:
         config = BOARD_CONFIGS[size_key]
+        url_params = {'seed': current_seed, 'size': size_key}
+        if allow_duplicates_flag:
+            url_params['allow_duplicates'] = 'on'
         size_options[size_key] = {
             'display_name': config['display_name'],
-            'url': url_for('view_board', seed=current_seed, size=size_key),
+            'url': url_for('view_board', **url_params),
             'is_active': size_key == current_size_key
         }
-    # --- ここまで追加 ---
 
     return render_template(
         'index.html',
@@ -164,7 +194,9 @@ def view_board():
         current_display_name=current_display_name, # 表示用の名前
         grid_size=grid_size,
         row_config=row_config,
-        size_options=size_options # 全サイズの情報を渡す
+        size_options=size_options, # 全サイズの情報を渡す
+        allow_duplicates=allow_duplicates_flag, # テンプレートに渡す (チェックボックスの初期状態用)
+        icon_counts=icon_counts # アイコンカウント辞書を渡す
     )
 
 if __name__ == '__main__':

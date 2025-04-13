@@ -10,7 +10,7 @@
 <body>
     <h1>SMASH HEX </h1>
 
-    {# --- サイズ選択UI (変更) --- #}
+    {# --- サイズ選択UI (1行目) --- #}
     <div class="size-selector">
         {% for size_key, option in size_options.items() %}
             <a href="{{ option.url }}"
@@ -19,9 +19,27 @@
             </a>
         {% endfor %}
     </div>
-    {# ランダム生成ボタンのリンク先を変更 #}
-    <a href="{{ url_for('random_generate', size=current_size_key) }}" class="new-board-button">ランダム生成</a>
-    {# --- ここまで変更 --- #}
+
+    {# --- コントロール2行目 --- #}
+    <div class="controls-row-2">
+        {# ランダム生成ボタン #}
+        <a href="{{ url_for('random_generate', size=current_size_key) }}" class="new-board-button" id="random-generate-button">ランダム生成</a>
+
+        {# Seed入力フォーム #}
+        <form action="{{ url_for('view_board') }}" method="GET" class="seed-form" id="seed-form">
+            <input type="hidden" name="size" value="{{ current_size_key }}">
+            <input type="number" name="seed" id="seed-input" placeholder="Seed値 (数字)"
+                   pattern="[0-9]*" inputmode="numeric" required value="{{ current_seed }}">
+            <button type="submit" id="seed-submit">生成</button>
+        </form>
+
+        {# ファイター重複チェックボックス #}
+        <div class="duplicate-checkbox-container">
+            <input type="checkbox" id="allow-duplicates" name="allow_duplicates" {{ 'checked' if allow_duplicates else '' }}>
+            <label for="allow-duplicates">ファイター重複</label>
+        </div>
+    </div>
+    {# --- コントロール2行目ここまで --- #}
 
     {# --- ハニカムグリッド描画 (row_configに基づいて動的に生成) --- #}
     <div id="hex-grid" class="hex-grid-container">
@@ -36,7 +54,11 @@
                     {# 正しいインデックスのアイコンを取得 #}
                     {% if icon_index.value < icons|length %} {# 配列外参照を防ぐ #}
                         {% set icon = icons[icon_index.value] %}
-                        <div class="hex-cell state-white" data-icon="{{ icon }}">
+                        {# data-duplicates 属性を追加 #}
+                        {# allow_duplicatesがFalseなら常に1、Trueならカウント結果(なければ1) #}
+                        <div class="hex-cell"
+                             data-icon="{{ icon }}"
+                             data-duplicates="{{ icon_counts.get(icon, 1) if allow_duplicates else 1 }}">
                             <div class="hex-content">
                                 <img src="{{ url_for('static', filename='sma_icon/' + icon) }}" alt="{{ icon.split('.')[0] }}">
                             </div>
