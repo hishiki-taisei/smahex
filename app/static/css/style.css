@@ -162,7 +162,7 @@ h1 {
     /* 回転によりレイアウトが崩れる可能性があるため、
        必要に応じて margin や padding の調整が必要になる場合があります */
     /* 例: 回転後のスペース確保のためマージンを追加 */
-    margin-left: calc(var(--hex-height) * 0.7); /* 左部マージン調整例 */
+    margin-left: calc(var(--hex-height) * 1); /* 左部マージン調整例 */
     /* --- ここまで追加 --- */
 }
 
@@ -242,39 +242,3 @@ h1 {
 .hex-cell.state-white { background-color: #ffffff; }
 .hex-cell.state-red { background-color: #ffcccc; }
 .hex-cell.state-blue { background-color: #cceeff; }
-
-/* --- モバイル向けスタイル調整 --- */
-@media (max-width: 768px) { /* 768px以下の画面幅に適用 */
-
-    /* Mediumサイズ (6x6) の調整 */
-    body.size-medium:root {
-        --hex-size: 45px;   /* ヘクスサイズを小さく */
-        --hex-margin: 10px;  /* マージンも小さく */
-    }
-
-    /* Largeサイズ (7x7) の調整 */
-    body.size-large:root {
-        --hex-size: 38px;   /* さらにヘクスサイズを小さく */
-        --hex-margin: 8px;   /* さらにマージンも小さく */
-    }
-
-    /* 回転によるマージンも調整 (必要に応じて) */
-    .hex-grid-container {
-        /* モバイルでは回転による左右マージンを減らすか無くす */
-        margin-left: calc(var(--hex-height) * 0.2); /* 例: 少し減らす */
-        margin-right: calc(var(--hex-height) * 0.2);/* 例: 少し減らす */
-        /* 上下のマージンも調整が必要な場合がある */
-        margin-top: calc(var(--hex-height) * 1.2);
-        margin-bottom: calc(var(--hex-height) * 1.2);
-    }
-
-    /* ボタンのサイズなども調整可能 */
-    .size-button {
-        padding: 8px 15px; /* モバイルでは少し小さく */
-        font-size: 0.9em;
-    }
-    .new-board-button {
-        padding: 6px 12px;
-        font-size: 0.9em;
-    }
-}
