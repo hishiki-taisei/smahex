@@ -224,5 +224,5 @@ h1 {
 
 /* 色の状態 (少し彩度を調整) */
 .hex-cell.state-white { background-color: #ffffff; }
-.hex-cell.state-red { background-color: #fe8f99; } /* よりソフトな赤 */
-.hex-cell.state-blue { background-color: #8de9f9; } /* よりソフトな青 */
+.hex-cell.state-red { background-color: #fe8f8f; } /* よりソフトな赤 */
+.hex-cell.state-blue { background-color: #a48df9; } /* よりソフトな青 */
