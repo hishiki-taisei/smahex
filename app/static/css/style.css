@@ -12,6 +12,12 @@ body {
     color: #343a40; /* デフォルトテキストカラー */
     text-align: center;
     overflow-x: hidden;
+    /* --- テキスト選択を無効化 --- */
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    /* --- ここまで追加 --- */
 }
 
 h1 {
