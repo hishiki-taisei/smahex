@@ -293,43 +293,23 @@ h1 {
 @media (max-width: 480px) {
     /* Mediumサイズ (6x6) のさらなる縮小 */
     body.size-medium:root {
-        --hex-size: 30px;
-        --hex-margin: 8px;
+        --hex-size: 20px;
+        --hex-margin: 6px;
     }
      body.size-medium .hex-grid-container {
-        margin-top: calc(var(--hex-height) * 1.5);
         margin-bottom: calc(var(--hex-height) * 1.5);
         margin-left: calc(var(--hex-height) * 1);
     }
 
     /* Largeサイズ (7x7) のさらなる縮小 */
     body.size-large:root {
-        --hex-size: 28px; /* さらに小さい値 */
+        --hex-size: 20px; /* さらに小さい値 */
         --hex-margin: 6px; /* さらに小さい値 */
     }
      body.size-large .hex-grid-container {
-        margin-top: calc(var(--hex-height) * 1.5);
         margin-bottom: calc(var(--hex-height) * 1.5);
         margin-left: calc(var(--hex-height) * 1);
     }
 
-    /* Smallサイズ (5x5) は変更しない */
 
-    /* ボタン等の共通調整 */
-     .size-button {
-        padding: 6px 12px;
-        font-size: 0.8em;
-    }
-    .new-board-button {
-        padding: 5px 10px;
-        font-size: 0.8em;
-        margin-top: 10px;
-        margin-bottom: 20px;
-    }
-     #share-url-input {
-        width: 65%;
-    }
-    #copy-button {
-        padding: 6px 10px;
-    }
 }
