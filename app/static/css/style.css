@@ -248,16 +248,12 @@ h1 {
 @media (max-width: 768px) {
     :root {
         /* ヘクスサイズとマージンを小さくする */
-        --hex-size: 40px;   /* 例: 60px -> 40px */
+        --hex-size: 50px;   /* 例: 60px -> 40px */
         --hex-margin: 10px; /* 例: 18px -> 10px */
         /* --hex-height と --row-margin-top は自動的に再計算される */
     }
 
-    /* ボタンのサイズも少し調整 */
-    .size-button {
-        padding: 8px 18px;
-        font-size: 0.9em;
-    }
+
     .new-board-button {
         padding: 7px 15px;
         font-size: 0.9em;
