@@ -162,7 +162,7 @@ h1 {
     /* 回転によりレイアウトが崩れる可能性があるため、
        必要に応じて margin や padding の調整が必要になる場合があります */
     /* 例: 回転後のスペース確保のためマージンを追加 */
-    margin-left: calc(var(--hex-height) * 1); /* 左部マージン調整例 */
+    margin-left: calc(var(--hex-height) * 0.7); /* 左部マージン調整例 */
     /* --- ここまで追加 --- */
 }
 
@@ -253,7 +253,7 @@ h1 {
     body.size-medium .hex-grid-container {
         margin-top: calc(var(--hex-height) * 1.5);
         margin-bottom: calc(var(--hex-height) * 1.5);
-        margin-left: calc(var(--hex-height) * 1);
+        margin-left: calc(var(--hex-height) * 0.7);
     }
 
     /* Largeサイズ (7x7) の縮小 (Mediumより少し小さくする例) */
@@ -264,7 +264,7 @@ h1 {
     body.size-large .hex-grid-container {
         margin-top: calc(var(--hex-height) * 1.5);
         margin-bottom: calc(var(--hex-height) * 1.5);
-        margin-left: calc(var(--hex-height) * 1);
+        margin-left: calc(var(--hex-height) * 0.7);
     }
 
     /* Smallサイズ (5x5) はここでは変更しない */
@@ -298,7 +298,7 @@ h1 {
     }
      body.size-medium .hex-grid-container {
         margin-bottom: calc(var(--hex-height) * 1.5);
-        margin-left: calc(var(--hex-height) * 1);
+        margin-left: calc(var(--hex-height) * 2);
     }
 
     /* Largeサイズ (7x7) のさらなる縮小 */
@@ -308,7 +308,7 @@ h1 {
     }
      body.size-large .hex-grid-container {
         margin-bottom: calc(var(--hex-height) * 1.5);
-        margin-left: calc(var(--hex-height) * 1);
+        margin-left: calc(var(--hex-height) * 3);
     }
 
 
