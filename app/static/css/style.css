@@ -5,6 +5,7 @@ body {
     margin: 20px;
     background-color: #f4f4f4;
     text-align: center;
+    overflow-x: hidden; /* 追加: 水平方向のオーバーフローを隠す */
 }
 
 h1 {
@@ -144,8 +145,8 @@ h1 {
        必要に応じて margin や padding の調整が必要になる場合があります */
     /* 例: 回転後のスペース確保のためマージンを追加 */
     margin-left: calc(var(--hex-height) * 1); /* 左部マージン調整例 */
-    margin-top: calc(var(--hex-height) * 1.8); /* 上部マージン調整例 */
-    margin-bottom: calc(var(--hex-height) * 1.2); /* 下部マージン調整例 */
+    margin-top: calc(var(--hex-height) * 2); /* 上部マージン調整例 */
+    margin-bottom: calc(var(--hex-height) * 2); /* 下部マージン調整例 */
 
     /* --- ここまで追加 --- */
 }
