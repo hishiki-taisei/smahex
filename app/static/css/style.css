@@ -280,15 +280,7 @@ h1 {
 @media (max-width: 480px) {
      :root {
         /* さらに小さい画面用 */
-        --hex-size: 30px;   /* 例: 40px -> 30px */
+        --hex-size: 40px;   /* 例: 40px -> 30px */
         --hex-margin: 6px; /* 例: 10px -> 6px */
-    }
-     .size-button {
-        padding: 6px 12px;
-        font-size: 0.8em;
-    }
-    .new-board-button {
-        padding: 5px 10px;
-        font-size: 0.8em;
     }
 }
