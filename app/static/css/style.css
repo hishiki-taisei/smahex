@@ -251,7 +251,6 @@ h1 {
         --hex-margin: 12px;
     }
     body.size-medium .hex-grid-container {
-        margin-top: calc(var(--hex-height) * 1.5);
         margin-bottom: calc(var(--hex-height) * 1.5);
         margin-left: calc(var(--hex-height) * 0.7);
     }
@@ -262,7 +261,6 @@ h1 {
         --hex-margin: 10px; /* Mediumより小さい値 */
     }
     body.size-large .hex-grid-container {
-        margin-top: calc(var(--hex-height) * 1.5);
         margin-bottom: calc(var(--hex-height) * 1.5);
         margin-left: calc(var(--hex-height) * 0.7);
     }
@@ -308,7 +306,7 @@ h1 {
     }
      body.size-large .hex-grid-container {
         margin-bottom: calc(var(--hex-height) * 1.5);
-        margin-left: calc(var(--hex-height) * 5);
+        margin-left: calc(var(--hex-height) * 10);
     }
 
 
