@@ -1,5 +1,9 @@
 /* static/css/style.css */
 
+html { /* 追加 */
+    overflow-x: hidden; /* 追加: 水平方向のオーバーフローを隠す */
+} /* ここまで追加 */
+
 body {
     font-family: sans-serif;
     margin: 20px;
