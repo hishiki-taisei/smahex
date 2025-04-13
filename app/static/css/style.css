@@ -148,18 +148,22 @@ h1 {
 }
 
 .hex-grid-container {
-    margin-top: calc(var(--hex-height) * 0.5); /* 上マージン調整 (例) */
-    margin-left: 30px; /* 左マージンを設定して左端にスペースを確保 (例) */
-    margin-right: 30px; /* 右マージンも設定 */
-    margin-bottom: calc(var(--hex-height) * 1); /* 下マージン調整 (例) */
+    margin: calc(var(--hex-height) / 2) auto 0;
     padding: 0;
     list-style: none;
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* 行をコンテナの左端に揃える */
-    padding-bottom: var(--hex-height);
+    align-items: center;
+    /* コンテナの幅は自動調整 */
+    padding-bottom: var(--hex-height); /* 下にもマージンを確保 */
+    /* --- 追加 --- */
     transform: rotate(-30deg);
-    transform-origin: top left; /* 回転基点を左上に変更 */
+    transform-origin: center center;
+    /* 回転によりレイアウトが崩れる可能性があるため、
+       必要に応じて margin や padding の調整が必要になる場合があります */
+    /* 例: 回転後のスペース確保のためマージンを追加 */
+    margin-left: calc(var(--hex-height) * 1); /* 左部マージン調整例 */
+    /* --- ここまで追加 --- */
 }
 
 .hex-row {
@@ -238,3 +242,71 @@ h1 {
 .hex-cell.state-white { background-color: #ffffff; }
 .hex-cell.state-red { background-color: #ffcccc; }
 .hex-cell.state-blue { background-color: #cceeff; }
+
+/* --- モバイル表示用の調整 --- */
+@media (max-width: 768px) {
+    :root {
+        /* ヘクスサイズとマージンを縮小 */
+        --hex-size: 40px;   /* 例: 60px -> 40px */
+        --hex-margin: 12px; /* 例: 18px -> 12px */
+        /* --hex-height と --row-margin-top は自動的に再計算される */
+    }
+
+    .hex-grid-container {
+        /* 回転後のマージンも縮小に合わせて調整 */
+        margin-top: calc(var(--hex-height) * 1.5); /* 再計算された --hex-height を使用 */
+        margin-bottom: calc(var(--hex-height) * 1.5); /* 再計算された --hex-height を使用 */
+        margin-left: calc(var(--hex-height) * 1); /* 再計算された --hex-height を使用 */
+    }
+
+    /* ボタンのサイズも少し調整 */
+    .size-button {
+        padding: 8px 18px;
+        font-size: 0.9em;
+    }
+    .new-board-button {
+        padding: 6px 15px;
+        font-size: 0.9em;
+    }
+
+    /* コントロールエリアの調整 */
+    .controls {
+        padding: 10px;
+    }
+    #share-url-input {
+        width: 70%; /* 少し調整 */
+    }
+    #copy-button {
+        padding: 8px 12px;
+    }
+}
+
+/* さらに小さい画面用の調整 (任意) */
+@media (max-width: 480px) {
+     :root {
+        --hex-size: 30px;   /* さらに縮小 */
+        --hex-margin: 8px;  /* さらに縮小 */
+    }
+     .hex-grid-container {
+        /* マージン再調整 */
+        margin-top: calc(var(--hex-height) * 1.5);
+        margin-bottom: calc(var(--hex-height) * 1.5);
+        margin-left: calc(var(--hex-height) * 1);
+    }
+     .size-button {
+        padding: 6px 12px;
+        font-size: 0.8em;
+    }
+    .new-board-button {
+        padding: 5px 10px;
+        font-size: 0.8em;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+     #share-url-input {
+        width: 65%;
+    }
+    #copy-button {
+        padding: 6px 10px;
+    }
+}
