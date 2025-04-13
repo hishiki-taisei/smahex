@@ -308,7 +308,7 @@ h1 {
     }
      body.size-large .hex-grid-container {
         margin-bottom: calc(var(--hex-height) * 1.5);
-        margin-left: calc(var(--hex-height) * 3);
+        margin-left: calc(var(--hex-height) * 5);
     }
 
 
