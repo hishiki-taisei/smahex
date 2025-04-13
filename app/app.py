@@ -72,11 +72,28 @@ def generate_icons_from_seed(seed_value, grid_size):
 @app.route('/')
 def home():
     """
-    ランダムなSeed値を生成し、デフォルトサイズで盤面を表示する/viewにリダイレクト
+    初回アクセス時にランダムなSeed値を生成し、
+    デフォルトサイズで盤面を表示する/viewにリダイレクト
     """
-    random_seed = random.randint(1000, 9999) # 4桁の範囲に変更
+    random_seed = random.randint(1000, 9999)
     # デフォルトサイズ(small)でリダイレクト
     return redirect(url_for('view_board', seed=random_seed, size=DEFAULT_BOARD_SIZE))
+
+# --- 新しいランダム生成ルートを追加 ---
+@app.route('/random')
+def random_generate():
+    """
+    現在のサイズを維持したまま、新しいランダムSeedで盤面を再生成する
+    """
+    # クエリパラメータから現在のサイズを取得、なければデフォルト
+    current_size = request.args.get('size', DEFAULT_BOARD_SIZE).lower()
+    if current_size not in BOARD_CONFIGS:
+        current_size = DEFAULT_BOARD_SIZE
+
+    random_seed = random.randint(1000, 9999)
+    # 受け取ったサイズと新しいSeedでリダイレクト
+    return redirect(url_for('view_board', seed=random_seed, size=current_size))
+# --- ここまで追加 ---
 
 @app.route('/view')
 def view_board():
@@ -91,9 +108,9 @@ def view_board():
         current_size_key = DEFAULT_BOARD_SIZE
 
     if not seed_str:
-        # seedがない場合はランダムなseedと指定されたサイズでリダイレクト
-        random_seed = random.randint(1000, 9999) # 4桁の範囲に変更
-        return redirect(url_for('view_board', seed=random_seed, size=current_size_key))
+        # seedがない場合は /random ルートにリダイレクトして処理させる
+        # (現在のサイズを引き継ぐため)
+        return redirect(url_for('random_generate', size=current_size_key))
 
     try:
         current_seed = int(seed_str)

@@ -19,8 +19,8 @@
             </a>
         {% endfor %}
     </div>
-    {# ランダム生成ボタンを下に移動 #}
-    <a href="{{ url_for('home') }}" class="new-board-button">ランダム生成</a>
+    {# ランダム生成ボタンのリンク先を変更 #}
+    <a href="{{ url_for('random_generate', size=current_size_key) }}" class="new-board-button">ランダム生成</a>
     {# --- ここまで変更 --- #}
 
     {# --- ハニカムグリッド描画 (row_configに基づいて動的に生成) --- #}
@@ -52,12 +52,7 @@
 
 
     <div class="controls">
-        <p>
-            盤面を共有する場合は、以下のURLをコピーしてください。
-        </p>
-        <input type="text" id="share-url-input" value="{{ share_url }}" readonly>
-        <button id="copy-button">クリップボードにコピー</button>
-        <p id="copy-feedback" class="copy-feedback"></p>
+        <button id="copy-button" data-share-url="{{ share_url }}">URLをコピー</button>
     </div>
 
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>

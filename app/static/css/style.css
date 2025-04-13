@@ -15,37 +15,21 @@ h1 {
 /* --- コントロールエリア (コピーボタンなど) --- */
 .controls {
     margin-top: 30px;
-    padding: 15px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    display: inline-block;
-    text-align: left;
-}
-
-#share-url-input {
-    width: 80%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    padding: 15px; /* パディングは維持しても良い */
+    text-align: center; /* ボタンを中央揃えにする */
+    position: relative;
+    z-index: 10;
 }
 
 #copy-button { /* controls内のコピーボタン専用 */
-    padding: 10px 15px;
-    background-color: #007bff;
+    padding: 10px 20px; /* パディング調整 */
+    background-color: #696969;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.2s ease;
     text-decoration: none;
-    display: inline-block;
-    margin-left: 5px;
-}
-
-#copy-button:hover {
-    background-color: #0056b3;
 }
 
 /* コピー成功時のスタイル */
@@ -57,18 +41,13 @@ h1 {
     background-color: #28a745; /* ホバー時も色を維持 */
 }
 
-.copy-feedback {
-    margin-top: 5px;
-    font-size: 0.9em;
-    color: green;
-    min-height: 1.2em;
-}
-
 /* --- 新しいサイズ選択UIのスタイル --- */
 .size-selector {
     margin-bottom: 15px; /* ランダム生成ボタンとの間隔 */
     display: flex;       /* ボタンを横並びにする */
     justify-content: center; /* 中央揃え */
+    position: relative; /* 追加 */
+    z-index: 10;       /* 追加: 手前に表示 */
 }
 
 .size-button {
@@ -132,6 +111,8 @@ h1 {
     background-color: #28a745;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     box-sizing: border-box;
+    position: relative; /* 追加 */
+    z-index: 10;       /* 追加: 手前に表示 */
 }
 .new-board-button:hover {
      background-color: #218838;
@@ -163,8 +144,8 @@ h1 {
        必要に応じて margin や padding の調整が必要になる場合があります */
     /* 例: 回転後のスペース確保のためマージンを追加 */
     margin-left: calc(var(--hex-height) * 1); /* 左部マージン調整例 */
-    margin-top: calc(var(--hex-height) * 1); /* 上部マージン調整例 */
-    margin-bottom: calc(var(--hex-height) * 1); /* 下部マージン調整例 */
+    margin-top: calc(var(--hex-height) * 1.8); /* 上部マージン調整例 */
+    margin-bottom: calc(var(--hex-height) * 1.2); /* 下部マージン調整例 */
 
     /* --- ここまで追加 --- */
 }
@@ -243,5 +224,5 @@ h1 {
 
 /* 色の状態 */
 .hex-cell.state-white { background-color: #ffffff; }
-.hex-cell.state-red { background-color: #ffcccc; }
-.hex-cell.state-blue { background-color: #cceeff; }
+.hex-cell.state-red { background-color: #ff9b9b; }
+.hex-cell.state-blue { background-color: #93dbff; }

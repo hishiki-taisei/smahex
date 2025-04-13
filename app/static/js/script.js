@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     const hexGrid = document.getElementById('hex-grid');
     const copyButton = document.getElementById('copy-button');
-    const shareUrlInput = document.getElementById('share-url-input');
-    const copyFeedback = document.getElementById('copy-feedback');
+    // const shareUrlInput = document.getElementById('share-url-input'); // 削除
+    // const copyFeedback = document.getElementById('copy-feedback'); // 削除
 
     // --- マスのクリック処理 ---
     if (hexGrid) {
@@ -40,31 +40,28 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- クリップボードコピー処理 ---
-    if (copyButton && shareUrlInput) {
+    if (copyButton) {
         copyButton.addEventListener('click', () => {
-            shareUrlInput.select(); // テキストを選択状態にする (任意)
-            shareUrlInput.setSelectionRange(0, 99999); // モバイル用
+            const urlToCopy = copyButton.dataset.shareUrl; // data属性からURLを取得
+            if (!urlToCopy) {
+                console.error('コピーするURLが見つかりません。');
+                return;
+            }
 
-            navigator.clipboard.writeText(shareUrlInput.value)
+            navigator.clipboard.writeText(urlToCopy) // 取得したURLを使用
                 .then(() => {
-                    // 成功時のフィードバック
-                    copyFeedback.textContent = 'コピーしました！';
+                    // 成功時のフィードバック (ボタンテキスト変更のみ)
                     copyButton.textContent = 'コピー完了';
-                    copyButton.classList.add('copied'); // copiedクラスを追加
+                    copyButton.classList.add('copied');
 
                     setTimeout(() => {
-                        copyFeedback.textContent = '';
-                        copyButton.textContent = 'クリップボードにコピー';
-                        copyButton.classList.remove('copied'); // copiedクラスを削除
-                    }, 2000); // 2秒後に元に戻す
+                        copyButton.textContent = 'URLをコピー';
+                        copyButton.classList.remove('copied');
+                    }, 2000);
                 })
                 .catch(err => {
-                    // 失敗時のフィードバック
+                    // 失敗時のフィードバック (コンソール出力のみ)
                     console.error('クリップボードへのコピーに失敗しました:', err);
-                    copyFeedback.textContent = 'コピーに失敗しました';
-                     setTimeout(() => {
-                        copyFeedback.textContent = '';
-                    }, 3000);
                 });
         });
     }
