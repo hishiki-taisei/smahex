@@ -162,8 +162,8 @@ h1 {
     /* 回転によりレイアウトが崩れる可能性があるため、
        必要に応じて margin や padding の調整が必要になる場合があります */
     /* 例: 回転後のスペース確保のためマージンを追加 */
-    margin-top: calc(var(--hex-height) * 1.5); /* 上部マージン調整例 */
     margin-bottom: calc(var(--hex-height) * 1.5); /* 下部マージン調整例 */
+    margin-left: calc(var(--hex-height) * 0.5); /* 左部マージン調整例 */
     /* --- ここまで追加 --- */
 }
 
