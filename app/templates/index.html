@@ -28,6 +28,9 @@
         {# Seed入力フォーム #}
         <form action="{{ url_for('view_board') }}" method="GET" class="seed-form" id="seed-form">
             <input type="hidden" name="size" value="{{ current_size_key }}">
+            {# --- allow_duplicates 用の hidden input を追加 --- #}
+            <input type="hidden" name="allow_duplicates" id="hidden-allow-duplicates" value="{{ 'on' if allow_duplicates else '' }}">
+            {# --- ここまで追加 --- #}
             <input type="number" name="seed" id="seed-input" placeholder="Seed値 (数字)"
                    pattern="[0-9]*" inputmode="numeric" required value="{{ current_seed }}">
             <button type="submit" id="seed-submit">生成</button>
