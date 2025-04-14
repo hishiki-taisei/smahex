@@ -24,7 +24,7 @@ body {
 h1 {
     color: #fff; /* white */
     background: linear-gradient(135deg, #ff6b6b, #ff3535); /* 赤系のグラデーション */
-    padding : 25px 0; /* パディングを少し増やす */
+    padding : 10px 0; /* パディングを少し増やす */
     margin: 0 0 25px 0; /* 下マージン調整 */
     font-weight: 700; /* さらに太く */
     letter-spacing: 1.5px; /* 文字間隔を広げる */
@@ -126,9 +126,9 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 11px; /* 要素間の隙間 */
+    gap: 15px; /* 要素間の隙間 */
     margin-top: 20px; /* サイズ選択ボタンとの間隔 */
-    margin-bottom: 35px; /* グリッドとの間隔 */
+    margin-bottom: 40px; /* グリッドとの間隔 */
     position: relative; /* z-indexのため */
     z-index: 10; /* 他の要素より手前に */
     flex-wrap: wrap; /* 画面幅が狭い場合に折り返す */
@@ -167,7 +167,7 @@ h1 {
 }
 
 #seed-input {
-    padding: 9px 8px;
+    padding: 9.5px 12px;
     border: 1px solid #ced4da;
     /* border-radius: 15px; */
     border-top-left-radius: 15px;    /* 左上を丸める */
@@ -306,11 +306,11 @@ h1 {
 /* 色の状態 (重複スタイルより優先) */
 .hex-cell.state-white { background-color: #ffffff; }
 .hex-cell.state-red {
-    background-color: #fe8f8f;
+    background-color: #fe8282;
     background-image: none; /* グラデーションを確実に上書き */
 }
 .hex-cell.state-blue {
-    background-color: #8d9df9;
+    background-color: #8194fd;
     background-image: none; /* グラデーションを確実に上書き */
 }
 
