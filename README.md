@@ -25,7 +25,7 @@ A web application that displays Super Smash Bros. characters in a hexagonal grid
 
 1. Clone the repository:
    ```
-   git clone <repository-url>
+   git clone https://github.com/hishiki-taisei/smahex.git
    cd smahex
    ```
 
