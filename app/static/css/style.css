@@ -240,7 +240,7 @@ h1 {
 
 .hex-grid-container {
     margin-top: calc(var(--hex-height) * 2.5);
-    margin-bottom: calc(var(--hex-height) * 1.2);
+    margin-bottom: calc(var(--hex-height) * 1);
     margin-left: calc(var(--hex-height) * 0);
     transform: rotate(-60deg);
     transform-origin: center center;
