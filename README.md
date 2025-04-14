@@ -2,7 +2,7 @@
 
 A web application that displays Super Smash Bros. characters in a hexagonal grid layout. Perfect for character selection, team building, or just for fun!
 
-![SMASH HEX Example](https://via.placeholder.com/800x400?text=SMASH+HEX+Example)
+![SMASH HEX Example](https://smahex.vercel.app/)
 
 ## Features
 
@@ -61,19 +61,8 @@ This application is compatible with Vercel deployment using the included `vercel
    - Blue
 5. **Share Your Board**: Click "URLをコピー" (Copy URL) to copy a shareable link
 
-## Technical Details
-
-- Built with Flask (Python web framework)
-- Frontend uses vanilla JavaScript
-- Responsive design with CSS
-- Characters displayed using a mathematically correct hexagonal grid layout
-- State management via URL parameters
-
-## License
-
-[Your License Here]
 
 ## Acknowledgments
 
-- Character assets from Super Smash Bros.
+- Character assets from Super Smash Bros Wiki. (https://w.atwiki.jp/smashsp_kensyou/pages/47.html#google_vignette).
 - Hexagonal grid layout inspired by mathematical honeycomb patterns
