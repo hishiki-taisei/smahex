@@ -10,6 +10,38 @@
 <body>
     <h1>SMASH HEX </h1>
 
+    {# --- ハニカムグリッド描画 (row_configに基づいて動的に生成) --- #}
+    <div id="hex-grid" class="hex-grid-container">
+        {# アイコンリストのインデックスを追跡するためのnamespace #}
+        {% set icon_index = namespace(value=0) %}
+        {# row_configリストをループして行を生成 #}
+        {% for row_count in row_config %}
+            {# 行ごとのセル数に応じてクラス名を動的に設定 #}
+            <div class="hex-row hex-row-{{ row_count }}">
+                {# その行のセル数だけループしてセルを生成 #}
+                {% for _ in range(row_count) %}
+                    {# 正しいインデックスのアイコンを取得 #}
+                    {% if icon_index.value < icons|length %} {# 配列外参照を防ぐ #}
+                        {% set icon = icons[icon_index.value] %}
+                        {# data-duplicates 属性を追加 #}
+                        {# allow_duplicatesがFalseなら常に1、Trueならカウント結果(なければ1) #}
+                        <div class="hex-cell"
+                             data-icon="{{ icon }}"
+                             data-duplicates="{{ icon_counts.get(icon, 1) if allow_duplicates else 1 }}">
+                            <div class="hex-content">
+                                <img src="{{ url_for('static', filename='sma_icon/' + icon) }}" alt="{{ icon.split('.')[0] }}">
+                            </div>
+                        </div>
+                        {# インデックスをインクリメント #}
+                        {% set icon_index.value = icon_index.value + 1 %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+    {# --- ハニカムグリッド描画ここまで --- #}
+
+
     {# --- サイズ選択UI (1行目) --- #}
     <div class="size-selector">
         {% for size_key, option in size_options.items() %}
@@ -44,37 +76,7 @@
     </div>
     {# --- コントロール2行目ここまで --- #}
 
-    {# --- ハニカムグリッド描画 (row_configに基づいて動的に生成) --- #}
-    <div id="hex-grid" class="hex-grid-container">
-        {# アイコンリストのインデックスを追跡するためのnamespace #}
-        {% set icon_index = namespace(value=0) %}
-        {# row_configリストをループして行を生成 #}
-        {% for row_count in row_config %}
-            {# 行ごとのセル数に応じてクラス名を動的に設定 #}
-            <div class="hex-row hex-row-{{ row_count }}">
-                {# その行のセル数だけループしてセルを生成 #}
-                {% for _ in range(row_count) %}
-                    {# 正しいインデックスのアイコンを取得 #}
-                    {% if icon_index.value < icons|length %} {# 配列外参照を防ぐ #}
-                        {% set icon = icons[icon_index.value] %}
-                        {# data-duplicates 属性を追加 #}
-                        {# allow_duplicatesがFalseなら常に1、Trueならカウント結果(なければ1) #}
-                        <div class="hex-cell"
-                             data-icon="{{ icon }}"
-                             data-duplicates="{{ icon_counts.get(icon, 1) if allow_duplicates else 1 }}">
-                            <div class="hex-content">
-                                <img src="{{ url_for('static', filename='sma_icon/' + icon) }}" alt="{{ icon.split('.')[0] }}">
-                            </div>
-                        </div>
-                        {# インデックスをインクリメント #}
-                        {% set icon_index.value = icon_index.value + 1 %}
-                    {% endif %}
-                {% endfor %}
-            </div>
-        {% endfor %}
-    </div>
-    {# --- ハニカムグリッド描画ここまで --- #}
-
+    
 
     <div class="controls">
         <button id="copy-button" data-share-url="{{ share_url }}">URLをコピー</button>
