@@ -75,7 +75,7 @@ h1 {
 
 /* --- サイズ選択UIのスタイル --- */
 .size-selector {
-    margin-top: 30px; /* h1との間隔 */
+    margin-top: 40px; /* h1との間隔 */
     display: inline-flex; /* inline-flexで中央揃えしやすく */
     justify-content: center;
     position: relative;
