@@ -283,7 +283,7 @@ h1 {
 /* data-duplicates="1" はデフォルトの #ffffff が適用される */
 
 /* 2個重複: 薄い黄色 (以前のまま or 変更) */
-.hex-cell[data-duplicates="2"] { background-color: #fffef0; } /* LemonChiffon */
+.hex-cell[data-duplicates="2"] { background-color: #fffde4; } /* LemonChiffon */
 
 /* 3個重複: 銅色グラデーション */
 .hex-cell[data-duplicates="3"] {
