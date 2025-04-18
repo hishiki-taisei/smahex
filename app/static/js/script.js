@@ -57,15 +57,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // --- 色変更処理 ---
             const currentState = clickedCell.classList.contains('state-red') ? 'red' :
-                                 clickedCell.classList.contains('state-blue') ? 'blue' : 'default'; // デフォルト状態を示すように変更
+                                 clickedCell.classList.contains('state-blue') ? 'blue' :
+                                 clickedCell.classList.contains('state-green') ? 'green' : 'default'; // greenを追加
             let nextStateClass = null; // 次の状態クラス (nullはデフォルト色に戻す)
-            const removeClasses = ['state-red', 'state-blue']; // 常に削除するクラス
+            const removeClasses = ['state-red', 'state-blue', 'state-green']; // 常に削除するクラスにgreenを追加
 
             if (currentState === 'default') {
                 nextStateClass = 'state-red'; // 次は赤
             } else if (currentState === 'red') {
                 nextStateClass = 'state-blue'; // 次は青
-            } else { // blue
+            } else if (currentState === 'blue') { // blueの場合
+                nextStateClass = 'state-green'; // 次は緑
+            } else { // greenの場合
                 // 次はデフォルト色 (クラス削除のみでOK)
             }
 
@@ -77,8 +80,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     const matchingCells = hexGrid.querySelectorAll(`.hex-cell[data-icon="${iconFilename}"]`);
                     // マッチしたすべてのセルの色を更新
                     matchingCells.forEach(cell => {
-                        cell.classList.remove(...removeClasses); // 赤と青を削除
-                        if (nextStateClass) { // 次が赤か青の場合
+                        cell.classList.remove(...removeClasses); // 赤、青、緑を削除
+                        if (nextStateClass) { // 次が赤、青、緑の場合
                             cell.classList.add(nextStateClass);
                         }
                         // nextStateClassがnullの場合はクラス削除のみ。
