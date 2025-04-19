@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const allowDuplicatesCheckbox = document.getElementById('allow-duplicates');
     const randomGenerateButton = document.getElementById('random-generate-button');
     const hiddenAllowDuplicatesInput = document.getElementById('hidden-allow-duplicates'); // hidden input取得
+    const threeColorModeCheckbox = document.getElementById('three-color-mode'); // 3色モードチェックボックス取得
 
     // --- タッチデバイス判定 ---
     const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0);
@@ -56,20 +57,34 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // --- 色変更処理 ---
+            const isThreeColorMode = threeColorModeCheckbox && threeColorModeCheckbox.checked; // 3色モードか判定
+
+            // 現在の状態を判定 (3色モード時は緑も考慮)
             const currentState = clickedCell.classList.contains('state-red') ? 'red' :
                                  clickedCell.classList.contains('state-blue') ? 'blue' :
-                                 clickedCell.classList.contains('state-green') ? 'green' : 'default'; // greenを追加
-            let nextStateClass = null; // 次の状態クラス (nullはデフォルト色に戻す)
-            const removeClasses = ['state-red', 'state-blue', 'state-green']; // 常に削除するクラスにgreenを追加
+                                 (isThreeColorMode && clickedCell.classList.contains('state-green')) ? 'green' : 'default';
 
-            if (currentState === 'default') {
-                nextStateClass = 'state-red'; // 次は赤
-            } else if (currentState === 'red') {
-                nextStateClass = 'state-blue'; // 次は青
-            } else if (currentState === 'blue') { // blueの場合
-                nextStateClass = 'state-green'; // 次は緑
-            } else { // greenの場合
-                // 次はデフォルト色 (クラス削除のみでOK)
+            let nextStateClass = null; // 次の状態クラス (nullはデフォルト色に戻す)
+            // 削除するクラスリスト (3色モード時は緑も含む)
+            const removeClasses = isThreeColorMode ? ['state-red', 'state-blue', 'state-green'] : ['state-red', 'state-blue'];
+
+            // 次の状態を決定
+            if (isThreeColorMode) {
+                // 3色モードのロジック: default -> red -> blue -> green -> default
+                if (currentState === 'default') {
+                    nextStateClass = 'state-red';
+                } else if (currentState === 'red') {
+                    nextStateClass = 'state-blue';
+                } else if (currentState === 'blue') {
+                    nextStateClass = 'state-green';
+                } // else (green) -> nextStateClass remains null (default)
+            } else {
+                // 通常モードのロジック: default -> red -> blue -> default
+                if (currentState === 'default') {
+                    nextStateClass = 'state-red';
+                } else if (currentState === 'red') {
+                    nextStateClass = 'state-blue';
+                } // else (blue) -> nextStateClass remains null (default)
             }
 
             // --- 重複許可チェックと連動処理 ---
@@ -80,12 +95,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     const matchingCells = hexGrid.querySelectorAll(`.hex-cell[data-icon="${iconFilename}"]`);
                     // マッチしたすべてのセルの色を更新
                     matchingCells.forEach(cell => {
-                        cell.classList.remove(...removeClasses); // 赤、青、緑を削除
+                        cell.classList.remove(...removeClasses); // モードに応じたクラスを削除
                         if (nextStateClass) { // 次が赤、青、緑の場合
                             cell.classList.add(nextStateClass);
                         }
-                        // nextStateClassがnullの場合はクラス削除のみ。
-                        // これによりCSSの data-duplicates に基づくスタイルが適用される。
                     });
                 } else {
                     // data-iconがない場合(念のため)、クリックされたセルのみ更新

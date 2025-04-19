@@ -315,7 +315,7 @@ h1 {
 }
 /* --- 追加: 緑色の状態 --- */
 .hex-cell.state-green {
-    background-color: #82fca0; /* 緑色 */
+    background-color: #77fa79; /* 緑色 */
     background-image: none; /* グラデーションを確実に上書き */
 }
 /* --- ここまで追加 --- */
