@@ -14,11 +14,11 @@ ICON_FOLDER = os.path.join(app.static_folder, 'sma_icon')
 BOARD_CONFIGS = {
     'small': {
         'display_name': '5x5', # 表示名を追加
-        #'grid_size': 25,
-        #'rows': [1, 2, 3, 4, 5, 4, 3, 2, 1]
+        'grid_size': 25,
+        'rows': [1, 2, 3, 4, 5, 4, 3, 2, 1]
         
-        'grid_size': 19,
-        'rows': [1, 2, 3, 2, 3, 2, 3, 2, 1]
+        #'grid_size': 19,
+        #'rows': [1, 2, 3, 2, 3, 2, 3, 2, 1]
     },
     'medium': {
         'display_name': '6x6', # 表示名を追加
