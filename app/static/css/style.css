@@ -230,6 +230,25 @@ h1 {
     height: 15px;
 }
 
+/* --- ハンデ有重複up: 無効時の視覚表現（ラベルに斜線） --- */
+.handicap-container {
+    position: relative;
+}
+.handicap-container.is-disabled .handicap-label {
+    position: relative;
+    opacity: 0.6;
+}
+.handicap-container.is-disabled .handicap-label::after {
+    content: "";
+    position: absolute;
+    left: -4px;
+    right: -4px;
+    top: 50%;
+    border-top: 2px solid #cc0000; /* 赤の斜線 */
+    transform: rotate(-15deg);
+    pointer-events: none;
+}
+
 /* --- Hex Grid Layout (調整) --- */
 :root {
     --hex-size: 55px; /* 少し小さくして密集感を出す */

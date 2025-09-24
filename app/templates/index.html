@@ -89,9 +89,9 @@
         </div>
 
         {# --- ハンデ有重複up（重複ON時のみ有効） --- #}
-        <div class="duplicate-checkbox-container">
+        <div class="duplicate-checkbox-container handicap-container {{ '' if allow_duplicates else 'is-disabled' }}">
             <input type="checkbox" id="handicap-up" name="handicap_up" {{ 'checked' if handicap_up else '' }} {{ '' if allow_duplicates else 'disabled' }}>
-            <label for="handicap-up">ハンデ有重複up</label>
+            <label for="handicap-up" class="handicap-label">ハンデ有重複up</label>
         </div>
 
         {# --- 追加: 3色モードチェックボックス --- #}

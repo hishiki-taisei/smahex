@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const hiddenAllowDuplicatesInput = document.getElementById('hidden-allow-duplicates'); // hidden input取得
     const threeColorModeCheckbox = document.getElementById('three-color-mode'); // 3色モードチェックボックス取得
     const handicapUpCheckbox = document.getElementById('handicap-up');
+    const handicapContainer = document.querySelector('.handicap-container');
     const hiddenHandicapUpInput = document.getElementById('hidden-handicap-up');
 
     // --- タッチデバイス判定 ---
@@ -19,12 +20,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const currentSize = new URL(randomGenerateButton.href).searchParams.get('size') || 'small';
         let randomUrlParams = new URLSearchParams({ size: currentSize });
 
-        if (allowDuplicatesCheckbox.checked) {
-            randomUrlParams.set('allow_duplicates', 'on');
-            if (handicapUpCheckbox && handicapUpCheckbox.checked) {
-                randomUrlParams.set('handicap_up', 'on');
-            }
+        // 常に現在の状態を明示的に付与する
+        randomUrlParams.set('allow_duplicates', allowDuplicatesCheckbox.checked ? 'on' : 'off');
+
+        if (handicapUpCheckbox) {
+            const handicapEnabled = allowDuplicatesCheckbox.checked && handicapUpCheckbox.checked;
+            randomUrlParams.set('handicap_up', handicapEnabled ? 'on' : 'off');
         }
+
         randomGenerateButton.href = `${baseRandomUrl}?${randomUrlParams.toString()}`;
     }
 
@@ -45,6 +48,9 @@ document.addEventListener('DOMContentLoaded', () => {
         handicapUpCheckbox.disabled = !enabled;
         if (!enabled) {
             handicapUpCheckbox.checked = false;
+        }
+        if (handicapContainer) {
+            handicapContainer.classList.toggle('is-disabled', !enabled);
         }
     }
 

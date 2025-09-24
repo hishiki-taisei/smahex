@@ -116,10 +116,10 @@ def generate_icons_with_handicap(seed_value, grid_size):
         icon5, icon4, icon3 = base_icons[0], base_icons[1], base_icons[2]
 
         # 各グループに付与するバッジ（同一グループ内は同じラベル）
-        badge_choices = ["ｼﾞｬ禁", "シ禁", "A禁", "B禁"]
-        badge5 = random.choice(badge_choices)
-        badge4 = random.choice(badge_choices)
-        badge3 = random.choice(badge_choices)
+        # 等確率で「ラベルなし（空文字）」も候補に含め、重複はしない
+        badge_pool = ["ジャ禁", "シ禁", "A禁", "B禁"]
+        selected_badges = random.sample(badge_pool, 3)
+        badge5, badge4, badge3 = selected_badges[0], selected_badges[1], selected_badges[2]
 
         pairs = []  # (icon, label)
         pairs.extend([(icon5, badge5)] * 5)
@@ -152,8 +152,8 @@ def home():
     デフォルトサイズで盤面を表示する/viewにリダイレクト
     """
     random_seed = random.randint(1000, 9999)
-    # デフォルトサイズ(small)でリダイレクト
-    return redirect(url_for('view_board', seed=random_seed, size=DEFAULT_BOARD_SIZE))
+    # デフォルトサイズ(small)でリダイレクト（初期状態は ON にする）
+    return redirect(url_for('view_board', seed=random_seed, size=DEFAULT_BOARD_SIZE, allow_duplicates='on'))
 
 @app.route('/random')
 def random_generate():
@@ -164,8 +164,9 @@ def random_generate():
     if current_size not in BOARD_CONFIGS:
         current_size = DEFAULT_BOARD_SIZE
 
-    # 重複許可フラグを取得
-    allow_duplicates_flag = request.args.get('allow_duplicates') == 'on'
+    # 重複許可フラグを取得（明示指定を優先、未指定時はFalse）
+    _allow_param = request.args.get('allow_duplicates', None)
+    allow_duplicates_flag = (_allow_param == 'on') if _allow_param is not None else False
     # ハンデモードフラグを取得（重複ON時のみ有効）
     handicap_up_flag = request.args.get('handicap_up') == 'on'
 
@@ -186,8 +187,9 @@ def view_board():
     """
     seed_str = request.args.get('seed', None)
     current_size_key = request.args.get('size', DEFAULT_BOARD_SIZE).lower()
-    # 重複許可フラグを取得 (パラメータが 'on' の場合に True)
-    allow_duplicates_flag = request.args.get('allow_duplicates') == 'on'
+    # 重複許可フラグを取得（明示指定を優先、未指定時はFalse）
+    _allow_param = request.args.get('allow_duplicates', None)
+    allow_duplicates_flag = (_allow_param == 'on') if _allow_param is not None else False
     # ハンデモード（重複前提）
     handicap_up_flag = request.args.get('handicap_up') == 'on'
 
