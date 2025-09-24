@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const randomGenerateButton = document.getElementById('random-generate-button');
     const hiddenAllowDuplicatesInput = document.getElementById('hidden-allow-duplicates'); // hidden input取得
     const threeColorModeCheckbox = document.getElementById('three-color-mode'); // 3色モードチェックボックス取得
+    const handicapUpCheckbox = document.getElementById('handicap-up');
+    const hiddenHandicapUpInput = document.getElementById('hidden-handicap-up');
 
     // --- タッチデバイス判定 ---
     const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0);
@@ -19,6 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (allowDuplicatesCheckbox.checked) {
             randomUrlParams.set('allow_duplicates', 'on');
+            if (handicapUpCheckbox && handicapUpCheckbox.checked) {
+                randomUrlParams.set('handicap_up', 'on');
+            }
         }
         randomGenerateButton.href = `${baseRandomUrl}?${randomUrlParams.toString()}`;
     }
@@ -28,6 +33,19 @@ document.addEventListener('DOMContentLoaded', () => {
         if (hiddenAllowDuplicatesInput && allowDuplicatesCheckbox) {
             hiddenAllowDuplicatesInput.value = allowDuplicatesCheckbox.checked ? 'on' : '';
         }
+        if (hiddenHandicapUpInput) {
+            const enabled = allowDuplicatesCheckbox && allowDuplicatesCheckbox.checked;
+            hiddenHandicapUpInput.value = (enabled && handicapUpCheckbox && handicapUpCheckbox.checked) ? 'on' : '';
+        }
+    }
+
+    function syncHandicapAvailability() {
+        if (!handicapUpCheckbox) return;
+        const enabled = allowDuplicatesCheckbox && allowDuplicatesCheckbox.checked;
+        handicapUpCheckbox.disabled = !enabled;
+        if (!enabled) {
+            handicapUpCheckbox.checked = false;
+        }
     }
 
     // --- イベントリスナー ---
@@ -36,11 +54,20 @@ document.addEventListener('DOMContentLoaded', () => {
         allowDuplicatesCheckbox.addEventListener('change', () => {
             updateRandomLink(); // ランダム生成リンクを更新
             updateHiddenInput(); // hidden inputを更新
+            syncHandicapAvailability();
+        });
+    }
+
+    if (handicapUpCheckbox) {
+        handicapUpCheckbox.addEventListener('change', () => {
+            updateRandomLink();
+            updateHiddenInput();
         });
     }
 
     // --- 初期化 ---
     updateRandomLink(); // ページ読み込み時にランダム生成リンクを初期化
+    syncHandicapAvailability();
 
     // --- マスのクリック処理 ---
     if (hexGrid) {

@@ -327,6 +327,7 @@ h1 {
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    position: relative; /* バッジ配置の基準にする */
 }
 
 .hex-content img {
@@ -342,4 +343,20 @@ h1 {
     pointer-events: none; /* マウスイベントのターゲットにならないようにする */
     -webkit-user-drag: none; /* ドラッグを無効化 (WebKit系) */
     /* --- ここまで追加 --- */
+}
+
+/* --- ハンデ有重複up バッジ --- */
+.badge-label {
+    position: absolute;
+    bottom: 10px;
+    left: -2px;
+    transform: rotate(60deg); /* 左下寄せでテキストは正対 */
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    font-size: 9.5px;
+    line-height: 1;
+    padding: 2px 4px;
+    border-radius: 4px;
+    pointer-events: none;
+    white-space: nowrap;
 }
