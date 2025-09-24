@@ -117,7 +117,7 @@ def generate_icons_with_handicap(seed_value, grid_size):
 
         # 各グループに付与するバッジ（同一グループ内は同じラベル）
         # 等確率で「ラベルなし（空文字）」も候補に含め、重複はしない
-        badge_pool = ["ジャ禁", "シ禁", "A禁", "B禁"]
+        badge_pool = ["ｼﾞｬ禁", "シ禁", "A禁", "B禁"]
         selected_badges = random.sample(badge_pool, 3)
         badge5, badge4, badge3 = selected_badges[0], selected_badges[1], selected_badges[2]
 
