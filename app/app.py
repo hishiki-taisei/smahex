@@ -67,6 +67,8 @@ def get_all_icons():
 
 all_icons_list = get_all_icons()
 
+POOL_SHRINK_RATIO = 0.95  # 重複ON時の候補プール縮小比率
+
 def generate_icons_from_seed(seed_value, grid_size, allow_duplicates=False): # allow_duplicates 引数を追加
     """指定されたSeed値とサイズに基づいてアイコンリストを生成する"""
     if all_icons_list is None:
@@ -84,8 +86,12 @@ def generate_icons_from_seed(seed_value, grid_size, allow_duplicates=False): # a
     try:
         random.seed(seed_value)
         if allow_duplicates:
-            # 重複を許可する場合: リストから重複ありで grid_size 個選択
-            selected_icons = random.choices(all_icons_list, k=grid_size)
+            # 重複を許可する場合: 候補プールを縮小してから重複ありで選択
+            unique_needed = max(1, int(grid_size * POOL_SHRINK_RATIO))
+            pool = list(all_icons_list)
+            random.shuffle(pool)
+            candidate_pool = pool[:unique_needed]
+            selected_icons = random.choices(candidate_pool, k=grid_size)
         else:
             # 重複を許可しない場合 (従来通り)
             shuffled_icons = list(all_icons_list)
@@ -127,12 +133,16 @@ def generate_icons_with_handicap(seed_value, grid_size):
         pairs.extend([(icon3, badge3)] * 3)
 
         remaining = grid_size - len(pairs)
-        # 残りは、上記3種を除外したプールから重複ありでランダム選択
+        # 残りは、上記3種を除外したプールから重複ありでランダム選択（プール縮小適用）
         pool = [i for i in all_icons_list if i not in {icon5, icon4, icon3}]
         if not pool:
             pool = list(all_icons_list)
         if remaining > 0:
-            rest_icons = random.choices(pool, k=remaining)
+            unique_needed = max(1, int(remaining * POOL_SHRINK_RATIO))
+            shuffled = list(pool)
+            random.shuffle(shuffled)
+            candidate_pool = shuffled[:unique_needed]
+            rest_icons = random.choices(candidate_pool, k=remaining)
             pairs.extend([(icon, "") for icon in rest_icons])
 
         # ペアの順序をシャッフルし、iconsとlabelsに分解
