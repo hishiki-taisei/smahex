@@ -122,10 +122,14 @@ def generate_icons_with_handicap(seed_value, grid_size):
         icon5, icon4, icon3 = base_icons[0], base_icons[1], base_icons[2]
 
         # 各グループに付与するバッジ（同一グループ内は同じラベル）
-        # 等確率で「ラベルなし（空文字）」も候補に含め、重複はしない
-        badge_pool = ["ｼﾞｬ禁", "シ禁", "A禁", "B禁","2ｽﾄ","1ｽﾄ"]
-        selected_badges = random.sample(badge_pool, 3)
-        badge5, badge4, badge3 = selected_badges[0], selected_badges[1], selected_badges[2]
+        # 重複数ごとに重さを差別化
+        heavy_badges_for_5 = ["ｼﾞｬ禁", "シ禁", "A禁", "B禁","2ｽﾄ","1ｽﾄ","50%"]
+        medium_badges_for_4 = ["シ禁", "B禁","2ｽﾄ", "2ｽﾄ","30%"]
+        light_badges_for_3 = ["シ禁", "2ｽﾄ", "2ｽﾄ",""]
+
+        badge5 = random.choice(heavy_badges_for_5) if heavy_badges_for_5 else ""
+        badge4 = random.choice(medium_badges_for_4) if medium_badges_for_4 else ""
+        badge3 = random.choice(light_badges_for_3) if light_badges_for_3 else ""
 
         pairs = []  # (icon, label)
         pairs.extend([(icon5, badge5)] * 5)
